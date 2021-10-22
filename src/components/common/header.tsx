@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from './auth';
 
 export const Link = ({ href, children }: { href: string; children: string }) => (
   <a
@@ -25,11 +26,17 @@ const NavbarLeft = () => (
   </div>
 );
 
-const NavbarRight = () => (
-  <div className="">
-    <Link href="/login">Login</Link>
-  </div>
-);
+const NavbarRight = () => {
+  const { loggedIn, user } = useContext(AuthContext);
+  return (
+    <div className="">
+      {
+        loggedIn ? <Link href="/mypage">{user?.displayName as string}</Link> : <Link href="/login">Login</Link>
+      }
+      
+    </div>
+  );
+}
 
 export const Navbar = () => (
   <nav className="bg-white shadow mx-0 my-0">
