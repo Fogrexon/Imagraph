@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route } from 'react-router-dom';
+import { AuthProvider, AuthPage } from './components/common/auth';
 import { Home } from './pages/index';
 import { Gallery } from './pages/gallery';
 import { MyPage } from './pages/mypage';
 import { Edit } from './pages/edit';
-import { AuthProvider, AuthPage } from './components/common/auth';
+import { Login } from './pages/login';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/mypage" component={MyPage} exact />
           <Route path="/edit" component={Edit} exact />
         </AuthPage>
+        <Route path="/login" component={Login} exact />
       </AuthProvider>
     </BrowserRouter>
   );

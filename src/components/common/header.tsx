@@ -19,15 +19,15 @@ const NavbarLeft = () => (
   <div className="flex items-center justify-between">
     <Bland />
     <div className="flex items-center justify-between">
-      <Link href="/">Gallery</Link>
-      <Link href="/">New</Link>
+      <Link href="/gallery">Gallery</Link>
+      <Link href="/edit?id=new">New</Link>
     </div>
   </div>
 );
 
 const NavbarRight = () => (
   <div className="">
-    <Link href="/">Login</Link>
+    <Link href="/login">Login</Link>
   </div>
 );
 

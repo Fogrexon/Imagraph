@@ -35,10 +35,10 @@ const CenterContent = () => (
       シェーダーを書いてオリジナルのカメラフィルターを作りましょう。
     </p>
     <div>
-      <Button isButton href="/">
+      <Button isButton href="/edit?id=new">
         Create New Filter
       </Button>
-      <Button isButton href="/">
+      <Button isButton href="/gallery">
         Open Gallery
       </Button>
     </div>
