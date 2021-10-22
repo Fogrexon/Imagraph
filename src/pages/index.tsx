@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
-// import Header from '../components/common/header';
+import React from 'react';
+import { Navbar } from '../components/common/header';
+import { Introduction } from '../components/home/intro';
 // import Index  from '../components/index/index';
 // import Footer  from '../components/common/footer';
 
-const Home: NextPage = () => (
+export const Home = () => (
   <>
-    <h1>Mainpage</h1>
+    <Navbar />
+    <Introduction />
   </>
 );
-
-export default Home;
