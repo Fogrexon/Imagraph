@@ -6,7 +6,6 @@ module.exports = {
   extends: [
     'plugin:react/recommended',
     'airbnb',
-    'next/core-web-vitals',
     'eslint-config-prettier',
   ],
   parser: '@typescript-eslint/parser',
@@ -22,6 +21,20 @@ module.exports = {
     'react',
     '@typescript-eslint',
   ],
+  settings: {
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      },
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   rules: {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "import/prefer-default-export": "off",
@@ -36,6 +49,8 @@ module.exports = {
       }
     ],
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"]
+    "@typescript-eslint/no-use-before-define": ["error"],
+    "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
+    "react/require-default-props": "off"
   }
 };

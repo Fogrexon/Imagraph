@@ -21,11 +21,9 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/_documents.js",
-    "components/firebase/firebase.js"
+    "src/components/firebase/firebase.js"
   ],
   "exclude": [
     "node_modules"

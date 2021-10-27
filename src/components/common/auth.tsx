@@ -1,4 +1,4 @@
-import { useState, createContext, useContext } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { User } from 'firebase/auth';
 import { useCookies } from 'react-cookie';
 import { auth as firebaseAuth } from '../../libs/firebase';
@@ -36,7 +36,7 @@ export const AuthPage = ({ children }: { children: any }) => {
   );
 };
 
-const AuthProvider = ({ children }: { children: any }) => {
+export const AuthProvider = ({ children }: { children: any }) => {
   const [cookie, setCookie] = useCookies(['authToken']);
 
   const [loggedIn, setLoginStatus] = useState(!!cookie);
@@ -62,5 +62,3 @@ const AuthProvider = ({ children }: { children: any }) => {
     </AuthContext.Provider>
   );
 };
-
-export default AuthProvider;
