@@ -3,7 +3,7 @@
 /* eslint-disable no-shadow */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import { AiFillPlayCircle, AiOutlineSave } from 'react-icons/ai';
+import { AiFillPlayCircle, AiFillSave } from 'react-icons/ai';
 import { Button } from '../ui/button';
 import { Tag } from '../ui/tag';
 
@@ -30,10 +30,10 @@ export const ControlBar = ({
     setTagEditFlag(false);
   }
   return (
-    <div className="w-full flex-grow-0">
+    <div className="w-11/12 shadow rounded-md flex-grow-0 my-4 p-2">
       <div className="w-full h-12 px-4 py-2 flex flex-row items-center">
-        <Button onClick={() => playShader()}>Play</Button>
-        <Button onClick={() => saveShader()}>Save</Button>
+        <Button onClick={() => playShader()}><AiFillPlayCircle className="text-2xl" /></Button>
+        <Button onClick={() => saveShader()}><AiFillSave className="text-2xl" /></Button>
         <input className="text-xl block flex-grow-0" value={name} onChange={(e) => updateName(e.target.value)} />
       </div>
       <div className="w-full h-12 px-4 py-2 flex flex-row items-center" onClick={() => setTagEditFlag(true)}>
