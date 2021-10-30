@@ -1,10 +1,10 @@
 import React from "react";
-import { Navbar } from "../components/common/header";
+import { Navbar } from "../components/ui/header";
 import { Editor } from '../components/editor/editor';
 
 export const Edit = () => (
-  <div>
-    <Navbar />
-    <Editor />
+  <div className="w-screen h-screen flex flex-col">
+    <Navbar className="flex-grow-1"/>
+    <Editor className="flex-grow"/>
   </div>
 )

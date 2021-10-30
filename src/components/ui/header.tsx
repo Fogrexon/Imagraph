@@ -38,8 +38,8 @@ const NavbarRight = () => {
   );
 }
 
-export const Navbar = () => (
-  <nav className="bg-white shadow mx-0 my-0">
+export const Navbar = ({ className = "" }: { className?: string }) => (
+  <nav className={`${className} bg-white shadow mx-0 my-0`}>
     <div className="flex items-center justify-between">
       <NavbarLeft />
       <NavbarRight />

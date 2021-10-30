@@ -5,7 +5,7 @@ import 'ace-builds/src-noconflict/theme-twilight';
 
 // eslint-disable-next-line no-unused-vars
 export const Ace = ({glsl, setGLSL}: {glsl: string, setGLSL: (shader: string) => void}) => (
-  <div className="w-2/4 md:w-3/5">
+  <div className="flex-grow h-full w-full md:w-2/4 lg:w-3/5">
     <ReactAce 
       mode="glsl"
       theme="twilight"
@@ -13,7 +13,7 @@ export const Ace = ({glsl, setGLSL}: {glsl: string, setGLSL: (shader: string) =>
       onChange={setGLSL}
       name="ace_editor"
       editorProps={{ $blockScrolling: true }}
-      style={{width: '100%'}}
+      style={{width: '100%', height: '100%'}}
     />
   </div>
 );

@@ -11,14 +11,14 @@ void main() {
 }
 `;
 
-export const Editor = () => {
+export const Editor = ({ className = "" }: { className?: string }) => {
   const [glsl, setGLSL] = useState(defaultGLSL);
   const [playingGLSL, setPlayingGLSL] = useState(glsl);
   const [name, setName] = useState('aaaaa');
   const [tag, setTag] = useState(['aaaaa']);
 
   return (
-    <main className="w-full">
+    <main className={`${className} flex flex-col w-full`}>
       <ControlBar
         playShader={() => setPlayingGLSL(glsl)}
         saveShader={() => 'a'}
@@ -27,7 +27,7 @@ export const Editor = () => {
         tags={tag}
         updateTags={setTag}
       />
-      <div className="w-full flex flex-row">
+      <div className="w-full flex flex-grow flex-col-reverse md:flex-row">
         <Ace glsl={glsl} setGLSL={setGLSL} />
         <Viewer glsl={playingGLSL} />
       </div>

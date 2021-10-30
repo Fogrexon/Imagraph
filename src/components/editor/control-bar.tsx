@@ -4,12 +4,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { AiFillPlayCircle, AiOutlineSave } from 'react-icons/ai';
-
-const Tag = ({children}: {children: string}) => (
-    <span className="px-2 py-1 m-1 rounded-md border-2 border-gray-700 hover:bg-gray-700 text-black hover:text-white cursor-pointer">
-      {children}
-    </span>
-  )
+import { Button } from '../ui/button';
+import { Tag } from '../ui/tag';
 
 export const ControlBar = ({
   playShader,
@@ -20,7 +16,7 @@ export const ControlBar = ({
   tags,
 }: {
   playShader: () => void,
-  saveShader: (shaderName: string, shaderTag: string[]) => void,
+  saveShader: () => void,
   updateName: (name: string) => void,
   name: string,
   updateTags: (tag: string[]) => void,
@@ -34,13 +30,13 @@ export const ControlBar = ({
     setTagEditFlag(false);
   }
   return (
-    <div className="w-full">
-      <div className="w-full h-14 px-4 py-2 flex flex-row items-center">
-        <AiFillPlayCircle className="text-3xl m-1 flex-grow-1" />
-        <AiOutlineSave className="text-3xl m-1 flex-grow-1" />
+    <div className="w-full flex-grow-0">
+      <div className="w-full h-12 px-4 py-2 flex flex-row items-center">
+        <Button onClick={() => playShader()}>Play</Button>
+        <Button onClick={() => saveShader()}>Save</Button>
         <input className="text-xl block flex-grow-0" value={name} onChange={(e) => updateName(e.target.value)} />
       </div>
-      <div className="w-full h-14 px-4 py-2 flex flex-row items-center" onClick={() => setTagEditFlag(true)}>
+      <div className="w-full h-12 px-4 py-2 flex flex-row items-center" onClick={() => setTagEditFlag(true)}>
         { /* eslint-disable-next-line jsx-a11y/label-has-associated-control */ }
         <div className="flex-grow-0">Tags:</div>
           {
