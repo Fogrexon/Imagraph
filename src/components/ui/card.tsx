@@ -3,21 +3,8 @@ import React, { createRef, useEffect } from 'react';
 import { Renderer, Filter } from 'graphim';
 import { WorkInfo } from '../../libs/firestore';
 import hatoImg from './hato.jpg';
-import iconImg from './icon.jpg';
-
-const Actor = () => (
-  <a href="/gallery">
-    <span className="w-8 h-8 block overflow-hidden flex-grow-1 delay-300 hover:outline-black" style={{borderRadius: '100px'}}>
-      <img src={iconImg} alt="user" className="w-full h-full m-0 p-0"/>
-    </span>
-  </a>
-)
-
-const Tag = ({ children }: { children: string }) => (
-  <span className="px-2 py-0.5 border-2 text-sm rounded-md transition-all cursor-pointer hover:bg-white hover:text-black">
-    { children }
-  </span>
-);
+import { Tag } from './tag';
+import { Actor } from './actor';
 
 export const Card = ({item}: {item: WorkInfo}) => {
   const imgRef = createRef<HTMLImageElement>();
@@ -56,7 +43,7 @@ export const Card = ({item}: {item: WorkInfo}) => {
       
       <div>
         {
-          item.detail.tags.map(tag => <Tag>{tag}</Tag>)
+          item.detail.tags.map(tag => <Tag white>{tag}</Tag>)
         }
       </div>
       </div>
