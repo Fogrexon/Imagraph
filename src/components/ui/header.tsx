@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AuthContext } from './auth';
+import { AuthContext } from '../common/auth';
 
 export const Link = ({ href, children }: { href: string; children: string }) => (
   <a
