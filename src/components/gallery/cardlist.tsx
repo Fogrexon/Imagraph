@@ -1,6 +1,6 @@
 import React from 'react';
 import { WorkInfo } from '../../libs/firestore';
-import { Card } from './card';
+import { Card } from '../ui/card';
 import items from './temp.json';
 
 export const CardList = () => (
