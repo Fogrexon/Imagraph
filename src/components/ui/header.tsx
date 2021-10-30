@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import { AuthContext } from '../common/auth';
+import { Actor } from './actor';
 
-export const Link = ({ href, children }: { href: string; children: string }) => (
+export const Link = ({ href, children }: { href: string; children: ReactNode }) => (
   <a
     href={href}
     className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 transition-colors duration-1 rounded-md md:mt-0 hover:bg-gray-300"
@@ -29,9 +30,9 @@ const NavbarLeft = () => (
 const NavbarRight = () => {
   const { loggedIn, user } = useContext(AuthContext);
   return (
-    <div className="">
+    <div className="h-12 flex items-center">
       {
-        loggedIn ? <Link href="/mypage">{user?.displayName as string}</Link> : <Link href="/login">Login</Link>
+        loggedIn ? <Link href="/mypage"><Actor />{user?.displayName as string}</Link> : <Link href="/login">Login</Link>
       }
       
     </div>
