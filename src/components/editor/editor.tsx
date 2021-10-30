@@ -20,7 +20,7 @@ export const Editor = ({ className = "" }: { className?: string }) => {
   return (
     <main className={`${className} flex flex-col w-full`}>
       <ControlBar
-        playShader={() => setPlayingGLSL(glsl)}
+        playShader={() => {setPlayingGLSL(glsl);}}
         saveShader={() => 'a'}
         name={name}
         updateName={setName}

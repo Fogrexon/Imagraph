@@ -17,14 +17,16 @@ export const Viewer = ({glsl}: { glsl: string }) => {
 
   const createFilter = () => {
     let renderer: Renderer;
-    const initialize = () => {
-      renderer = new Renderer({ image: imgRef.current as HTMLImageElement });
+    console.log("pre", new Date().getMilliseconds())
+    console.log(imgRef.current)
+    const initialize = (img: HTMLImageElement) => () => {
+      renderer = new Renderer({ image: img });
       // shader compile error
       try {
         filter.current = new Filter(glsl);
         setErrorMessage([]);
       } catch(e) {
-        const errors = `${e  }`.split('ERROR: ').slice(1).map(mes => {
+        const errors = `${e}`.split('ERROR: ').slice(1).map(mes => {
           const splited = mes.split(':');
           const line = Number(splited[1]) - 3;
           const error = splited.slice(2).join(':');
@@ -37,12 +39,13 @@ export const Viewer = ({glsl}: { glsl: string }) => {
     }
   
     if(imgRef.current?.complete) {
-      initialize();
+      initialize(imgRef.current)();
     } else {
-      imgRef?.current?.addEventListener('load', initialize);
+      imgRef?.current?.addEventListener('load', initialize(imgRef.current));
     }
   
     return (() => {
+      console.log('release');
       renderer?.stopAnimate();
       renderer?.release();
     });
@@ -50,6 +53,7 @@ export const Viewer = ({glsl}: { glsl: string }) => {
 
   const refreshShader = () => {
     try {
+      console.log(glsl);
       filter.current?.setShader(glsl);
       setErrorMessage([]);
     } catch(e) {
@@ -64,10 +68,14 @@ export const Viewer = ({glsl}: { glsl: string }) => {
     }
   }
 
-
   useEffect(() => {
     if (!imgRef || !imgRef.current) return;
-    if (!filter.current) return createFilter();
+    console.log(imgRef?.current)
+    console.log(imgRef?.current?.width)
+    return createFilter();
+  }, [])
+
+  useEffect(() => {
     refreshShader();
   }, [glsl]);
 
