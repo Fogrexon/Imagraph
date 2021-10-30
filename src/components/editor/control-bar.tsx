@@ -42,7 +42,7 @@ export const ControlBar = ({
           {
             tagEditFlag ?
               (<input className="block flex-grow-0 mx-2" value={editTag} onChange={(e) => setEditTag(e.target.value)} onBlur={e => leaveHandler(e.target.value)} />) :
-              (<div className="flex-grow-0">{tags.map(tag => <Tag>{tag}</Tag>)}</div>)
+              (<div className="flex-grow-0">{tags.map(tag => <Tag key={tag}>{tag}</Tag>)}</div>)
           }
       </div>
     </div>
