@@ -1,8 +1,9 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { createRef, ReactNode, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../common/auth';
 import { Actor } from './actor';
-import { ButtonLink } from './button';
+import { Button, ButtonLink } from './button';
+import { ProfileCard } from './profile-card';
 
 export const PageLink = ({ href, children }: { href: string; children: ReactNode }) => (
   <Link
@@ -35,13 +36,33 @@ const NavbarLeft = () => (
 
 const NavbarRight = () => {
   const { loggedIn, user } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
+  const modalParentRef = createRef<HTMLDivElement>();
+  const openButton = () => {
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    const documentClickHandler = (parent: HTMLDivElement | null) => (e: MouseEvent) => {
+      if (!parent || parent?.contains(e.target as Node)) return;
+      setOpen(false);
+    };
+    document.addEventListener('click', documentClickHandler(modalParentRef?.current));
+    return () =>
+      document.removeEventListener('click', documentClickHandler(modalParentRef?.current));
+  }, []);
   return (
-    <div className="h-12 flex items-center">
+    <div ref={modalParentRef} className="h-12 flex items-center">
       {loggedIn ? (
-        <ButtonLink small href="/mypage">
-          <Actor />
-          {user?.displayName as string}
-        </ButtonLink>
+        <>
+          <Button onClick={() => openButton()} small>
+            <Actor src={user?.photoURL} />
+            {user?.displayName as string}
+          </Button>
+          <div className={`z-50 ${open ? '' : 'hidden'}`}>
+            <ProfileCard />
+          </div>
+        </>
       ) : (
         <ButtonLink href="/login">Login</ButtonLink>
       )}

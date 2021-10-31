@@ -27,6 +27,7 @@ export const Card = ({ item }: { item: WorkInfo }) => {
 
     return () => {
       renderer?.stopAnimate();
+      filter?.release();
       renderer?.release();
     };
   });
@@ -51,7 +52,9 @@ export const Card = ({ item }: { item: WorkInfo }) => {
 
         <div>
           {item.detail.tags.map((tag) => (
-            <Tag white>{tag}</Tag>
+            <Tag key={tag} white>
+              {tag}
+            </Tag>
           ))}
         </div>
       </div>
