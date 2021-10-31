@@ -1,7 +1,10 @@
 import React from "react";
+import { AuthPage } from "../components/common/auth";
 
 export const MyPage = () => (
-  <div>
-    Gallery
-  </div>
+  <AuthPage>
+    <div>
+      Gallery
+    </div>
+  </AuthPage>
 )
