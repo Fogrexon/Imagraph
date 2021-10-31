@@ -40,15 +40,16 @@ const NavbarRight = () => {
   const modalParentRef = createRef<HTMLDivElement>();
   const openButton = () => {
     setOpen(true);
-  }
-  
+  };
+
   useEffect(() => {
     const documentClickHandler = (parent: HTMLDivElement | null) => (e: MouseEvent) => {
       if (!parent || parent?.contains(e.target as Node)) return;
       setOpen(false);
-    }
+    };
     document.addEventListener('click', documentClickHandler(modalParentRef?.current));
-    return () => document.removeEventListener('click', documentClickHandler(modalParentRef?.current));
+    return () =>
+      document.removeEventListener('click', documentClickHandler(modalParentRef?.current));
   }, []);
   return (
     <div ref={modalParentRef} className="h-12 flex items-center">
