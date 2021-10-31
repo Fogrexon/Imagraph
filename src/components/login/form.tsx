@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Redirect } from 'react-router-dom';
 import { auth } from '../../libs/firebase';
 import { createUser, hasUser} from '../../libs/firestore';
+import { Alert } from '../ui/alert';
 
 const GoogleLogin = () => {
   const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
@@ -31,7 +33,7 @@ const GoogleLogin = () => {
     <div className="w-11/12 h-11/12 relative px-3 py-6 shadow rounded-md">
         {
           // eslint-disable-next-line no-nested-ternary
-          loggedIn === true ? 'Success' : (loggedIn === false ? '' : loggedIn)
+          loggedIn === true ? <><Alert>Success. </Alert><Redirect to="/gallery"/></> : (loggedIn === false ? '' : loggedIn)
         }
         <button className="bg-red-500 px-4 py-2 text-white font-medium rounded-md" type="button" onClick={loginProcess}>
           Googleでログイン
