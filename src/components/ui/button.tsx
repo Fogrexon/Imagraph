@@ -20,7 +20,7 @@ export const Button = (
       className={`inline-block mx-2 my-2${ small ? ' px-2 py-1 text-sm font-medium rounded-md' : ' px-4 py-2 rounded-xl'} transition-colors duration-1 ${
         primary
           ? 'bg-blue-700 text-white hover:bg-blue-900'
-          : 'text-gray-700 bg-opacity-0 bg-gray-200 hover:bg-opacity-100'
+          : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
       }`}
     >
       {children}
@@ -45,7 +45,7 @@ export const ButtonLink = (
     className={`inline-block mx-2 my-2${ small ? ' px-2 py-1 text-sm font-medium rounded-md' : ' px-4 py-2 rounded-xl'} transition-colors duration-1 ${
       primary
         ? 'bg-blue-700 text-white hover:bg-blue-900'
-        : 'text-gray-700 bg-opacity-0 bg-gray-200 hover:bg-opacity-100'
+        : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
     }`}
   >
     {children}
