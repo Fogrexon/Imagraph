@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { createRef, useEffect } from 'react';
 import { Renderer, Filter } from 'graphim';
+import { Link } from 'react-router-dom';
 import { WorkInfo } from '../../libs/firestore';
 import hatoImg from './hato.jpg';
 import { Tag } from './tag';
@@ -34,11 +35,11 @@ export const Card = ({item}: {item: WorkInfo}) => {
       <div className="absolute text-white top-0 left-0 w-full h-full flex flex-col items-center bg-gray-700 bg-opacity-70 opacity-0 hover:opacity-100 duration-300">
       <div className="flex flex-row items-center w-full px-2 py-1">
         <Actor />
-        <a href="/gallery">
+        <Link to="/gallery">
           <h2 className="text-xl mx-4 my-2 flex-grow-0 hover:underline transition-all duration-500">
             {item.detail.title}
           </h2>
-        </a>
+        </Link>
       </div>
       
       <div>
