@@ -29,10 +29,12 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext .ts,.tsx ./src/components/* && eslint --ext .ts,.tsx ./src/pages/*",
-    "fix": "npm run format && npm run lint:fix",
-    "format": "prettier --write './src/components/**/*.{js,jsx,ts,tsx}' && prettier --write './src/pages/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix './src/components/**/*.{js,jsx,ts,tsx}' && eslint --fix './src/pages/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint --ext .ts,.tsx ./src/*",
+    "lint:fix": "eslint --fix './src/**/*.{js,jsx,ts,tsx}'",
+    "format": "prettier './src/**/*.{js,jsx,ts,tsx}'",
+    "format:fix": "prettier --write './src/**/*.{js,jsx,ts,tsx}'",
+    "check": "npm run format && npm run lint",
+    "fix": "npm run format:fix && npm run lint:fix"
   },
   "eslintConfig": {
     "extends": [
