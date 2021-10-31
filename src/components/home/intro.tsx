@@ -1,6 +1,6 @@
 import React from 'react';
 import { BiRightArrowAlt } from 'react-icons/bi';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '../ui/button';
 
 const Title = () => (
   <div className="max-w-lg mx-auto">
@@ -8,26 +8,6 @@ const Title = () => (
   </div>
 );
 
-const Button = ({
-  isButton = false,
-  href,
-  children,
-}: {
-  isButton?: boolean;
-  href: string;
-  children: string;
-}) => (
-  <Link
-    to={href}
-    className={`inline-block mx-2 my-2 px-4 py-2 transition-colors duration-1 ${
-      isButton
-        ? 'bg-blue-700 text-white hover:bg-blue-900'
-        : 'text-gray-700 bg-white hover:bg-gray-200'
-    } rounded-xl`}
-  >
-    {children} <BiRightArrowAlt className="inline" />
-  </Link>
-);
 
 const CenterContent = () => (
   <div>
@@ -36,14 +16,14 @@ const CenterContent = () => (
       シェーダーを書いてオリジナルのカメラフィルターを作りましょう。
     </p>
     <div>
-      <Button isButton href="/edit?id=new">
-        Create New Filter
-      </Button>
-      <Button isButton href="/gallery">
-        Open Gallery
-      </Button>
+      <ButtonLink primary href="/edit?id=new">
+        Create New Filter <BiRightArrowAlt className="inline" />
+      </ButtonLink>
+      <ButtonLink primary href="/gallery">
+        Open Gallery <BiRightArrowAlt className="inline" />
+      </ButtonLink>
     </div>
-    <Button href="/">Get Started</Button>
+    <ButtonLink href="/">Get Started <BiRightArrowAlt className="inline" /></ButtonLink>
   </div>
 );
 
