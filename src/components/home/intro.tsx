@@ -8,7 +8,6 @@ const Title = () => (
   </div>
 );
 
-
 const CenterContent = () => (
   <div>
     <Title />
@@ -23,7 +22,9 @@ const CenterContent = () => (
         Open Gallery <BiRightArrowAlt className="inline" />
       </ButtonLink>
     </div>
-    <ButtonLink href="/">Get Started <BiRightArrowAlt className="inline" /></ButtonLink>
+    <ButtonLink href="/">
+      Get Started <BiRightArrowAlt className="inline" />
+    </ButtonLink>
   </div>
 );
 
