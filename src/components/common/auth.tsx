@@ -18,22 +18,33 @@ export const AuthContext = createContext<AuthInfo>({
   user: null,
 });
 
-const AuthAlert = ({ loading = true, loggedIn = false }: {loading?: boolean, loggedIn?: boolean}) => {
+const AuthAlert = ({
+  loading = true,
+  loggedIn = false,
+}: {
+  loading?: boolean;
+  loggedIn?: boolean;
+}) => {
   if (loading) {
-    return (
-      <Loading />
-    )
+    return <Loading />;
   }
   if (loggedIn) return <></>;
   return (
     <div>
       <Alert type="info">
         <p className="w-full text-center">Login is Required</p>
-        <div><ButtonLink small href="/">Home</ButtonLink><ButtonLink small href="/login">Login</ButtonLink></div>
+        <div>
+          <ButtonLink small href="/">
+            Home
+          </ButtonLink>
+          <ButtonLink small href="/login">
+            Login
+          </ButtonLink>
+        </div>
       </Alert>
     </div>
-  )
-}
+  );
+};
 
 export const AuthPage = ({ children }: { children: any }) => {
   const { loggedIn, checked } = useContext(AuthContext);
@@ -48,7 +59,11 @@ export const AuthPage = ({ children }: { children: any }) => {
       >
         {children}
       </div>
-      <div className={`fixed top-0 left-0 w-screen h-screen flex items-center justify-center${checked && loggedIn ? ' hidden' : ''}`}>
+      <div
+        className={`fixed top-0 left-0 w-screen h-screen flex items-center justify-center${
+          checked && loggedIn ? ' hidden' : ''
+        }`}
+      >
         <AuthAlert loading={!checked} loggedIn={loggedIn} />
       </div>
     </div>

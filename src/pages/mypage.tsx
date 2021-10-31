@@ -1,10 +1,8 @@
-import React from "react";
-import { AuthPage } from "../components/common/auth";
+import React from 'react';
+import { AuthPage } from '../components/common/auth';
 
 export const MyPage = () => (
   <AuthPage>
-    <div>
-      Gallery
-    </div>
+    <div>Gallery</div>
   </AuthPage>
-)
+);

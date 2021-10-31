@@ -23,8 +23,12 @@ const NavbarLeft = () => (
   <div className="flex items-center justify-between">
     <Bland />
     <div className="flex items-center justify-between">
-      <ButtonLink small href="/gallery">Gallery</ButtonLink>
-      <ButtonLink small href="/edit?id=new">New</ButtonLink>
+      <ButtonLink small href="/gallery">
+        Gallery
+      </ButtonLink>
+      <ButtonLink small href="/edit?id=new">
+        New
+      </ButtonLink>
     </div>
   </div>
 );
@@ -33,15 +37,19 @@ const NavbarRight = () => {
   const { loggedIn, user } = useContext(AuthContext);
   return (
     <div className="h-12 flex items-center">
-      {
-        loggedIn ? <ButtonLink small href="/mypage"><Actor />{user?.displayName as string}</ButtonLink> : <ButtonLink href="/login">Login</ButtonLink>
-      }
-      
+      {loggedIn ? (
+        <ButtonLink small href="/mypage">
+          <Actor />
+          {user?.displayName as string}
+        </ButtonLink>
+      ) : (
+        <ButtonLink href="/login">Login</ButtonLink>
+      )}
     </div>
   );
-}
+};
 
-export const Navbar = ({ className = "" }: { className?: string }) => (
+export const Navbar = ({ className = '' }: { className?: string }) => (
   <nav className={`${className} bg-white shadow mx-0 my-0`}>
     <div className="flex items-center justify-between">
       <NavbarLeft />

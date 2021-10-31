@@ -12,7 +12,7 @@ void main() {
 }
 `;
 
-export const Editor = ({ className = "" }: { className?: string }) => {
+export const Editor = ({ className = '' }: { className?: string }) => {
   const [glsl, setGLSL] = useState(defaultGLSL);
   const [playingGLSL, setPlayingGLSL] = useState(glsl);
   const [name, setName] = useState('aaaaa');
@@ -26,7 +26,9 @@ export const Editor = ({ className = "" }: { className?: string }) => {
         <div className="relative flex-grow-1 flex justify-center items-center flex-col py-4 md:h-full w-full md:w-2/4 lg:w-2/5">
           <Viewer glsl={playingGLSL} updateErrors={setErrors} errors={errors} />
           <ControlBar
-            playShader={() => {setPlayingGLSL(glsl);}}
+            playShader={() => {
+              setPlayingGLSL(glsl);
+            }}
             saveShader={() => 'a'}
             name={name}
             updateName={setName}
@@ -37,4 +39,4 @@ export const Editor = ({ className = "" }: { className?: string }) => {
       </div>
     </main>
   );
-}
+};
