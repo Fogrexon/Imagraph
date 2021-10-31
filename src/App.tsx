@@ -4,7 +4,6 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { AuthProvider } from './components/common/auth';
 import { Home } from './pages/index';
 import { Gallery } from './pages/gallery';
-import { MyPage } from './pages/mypage';
 import { Edit } from './pages/edit';
 import { Login } from './pages/login';
 
@@ -14,7 +13,6 @@ function App() {
       <AuthProvider>
         <Route path="/" component={Home} exact />
         <Route path="/gallery" component={Gallery} exact />
-        <Route path="/mypage" component={MyPage} exact />
         <Route path="/edit" component={Edit} exact />
         <Route path="/login" component={Login} exact />
       </AuthProvider>
