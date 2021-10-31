@@ -59,8 +59,8 @@ const updateWork = (id: string, workDetail: WorkDetail) =>
 
 const addWork = (workDetail: WorkDetail) => addDoc(workCollection, workDetail);
 
-// eslint-disable-next-line no-return-await
 const createUser = async (userid: string, name: string) =>
+  // eslint-disable-next-line no-return-await
   await setDoc(doc(userCollection, userid), {
     userid,
     name,
