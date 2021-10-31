@@ -52,7 +52,9 @@ export const Card = ({ item }: { item: WorkInfo }) => {
 
         <div>
           {item.detail.tags.map((tag) => (
-            <Tag key={tag} white>{tag}</Tag>
+            <Tag key={tag} white>
+              {tag}
+            </Tag>
           ))}
         </div>
       </div>
