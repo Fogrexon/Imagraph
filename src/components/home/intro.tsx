@@ -1,5 +1,6 @@
 import React from 'react';
 import { BiRightArrowAlt } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
 
 const Title = () => (
   <div className="max-w-lg mx-auto">
@@ -16,8 +17,8 @@ const Button = ({
   href: string;
   children: string;
 }) => (
-  <a
-    href={href}
+  <Link
+    to={href}
     className={`inline-block mx-2 my-2 px-4 py-2 transition-colors duration-1 ${
       isButton
         ? 'bg-blue-700 text-white hover:bg-blue-900'
@@ -25,7 +26,7 @@ const Button = ({
     } rounded-xl`}
   >
     {children} <BiRightArrowAlt className="inline" />
-  </a>
+  </Link>
 );
 
 const CenterContent = () => (
