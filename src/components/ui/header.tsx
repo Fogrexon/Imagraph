@@ -2,6 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../common/auth';
 import { Actor } from './actor';
+import { ButtonLink } from './button';
 
 export const PageLink = ({ href, children }: { href: string; children: ReactNode }) => (
   <Link
@@ -22,8 +23,12 @@ const NavbarLeft = () => (
   <div className="flex items-center justify-between">
     <Bland />
     <div className="flex items-center justify-between">
-      <PageLink href="/gallery">Gallery</PageLink>
-      <PageLink href="/edit?id=new">New</PageLink>
+      <ButtonLink small href="/gallery">
+        Gallery
+      </ButtonLink>
+      <ButtonLink small href="/edit?id=new">
+        New
+      </ButtonLink>
     </div>
   </div>
 );
@@ -32,15 +37,19 @@ const NavbarRight = () => {
   const { loggedIn, user } = useContext(AuthContext);
   return (
     <div className="h-12 flex items-center">
-      {
-        loggedIn ? <PageLink href="/mypage"><Actor />{user?.displayName as string}</PageLink> : <PageLink href="/login">Login</PageLink>
-      }
-      
+      {loggedIn ? (
+        <ButtonLink small href="/mypage">
+          <Actor />
+          {user?.displayName as string}
+        </ButtonLink>
+      ) : (
+        <ButtonLink href="/login">Login</ButtonLink>
+      )}
     </div>
   );
-}
+};
 
-export const Navbar = ({ className = "" }: { className?: string }) => (
+export const Navbar = ({ className = '' }: { className?: string }) => (
   <nav className={`${className} bg-white shadow mx-0 my-0`}>
     <div className="flex items-center justify-between">
       <NavbarLeft />
