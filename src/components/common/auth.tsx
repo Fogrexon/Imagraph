@@ -52,7 +52,7 @@ export const AuthPage = ({ children }: { children: any }) => {
   return (
     <div className="relative">
       <div
-        className={`w-full m-0 p-0${checked && loggedIn ? '' : ' blur-md'}`}
+        className={`relative w-full m-0 p-0${checked && loggedIn ? '' : ' blur-md'}`}
         style={{
           filter: checked && loggedIn ? 'none' : 'blur(12px)',
         }}
