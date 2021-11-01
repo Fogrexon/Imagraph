@@ -27,7 +27,7 @@ const NavbarLeft = () => (
       <ButtonLink small href="/gallery">
         Gallery
       </ButtonLink>
-      <ButtonLink small href="/edit?id=new">
+      <ButtonLink small href="/edit/new">
         New
       </ButtonLink>
     </div>
@@ -47,9 +47,11 @@ const NavbarRight = () => {
       if (!parent || parent?.contains(e.target as Node)) return;
       setOpen(false);
     };
-    document.addEventListener('click', documentClickHandler(modalParentRef?.current));
-    return () =>
-      document.removeEventListener('click', documentClickHandler(modalParentRef?.current));
+    const handler = documentClickHandler(modalParentRef?.current);
+    document.addEventListener('click', handler);
+    return () => {
+      document.removeEventListener('click', handler);
+    };
   }, []);
   return (
     <div ref={modalParentRef} className="h-12 flex items-center">

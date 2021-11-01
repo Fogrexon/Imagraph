@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 import { Ace } from 'ace-builds';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { WorkInfo } from '../../libs/firestore';
 import { AceEditor } from './ace';
 import { ControlBar } from './control-bar';
 import { Viewer } from './viewer';
@@ -12,12 +13,25 @@ void main() {
 }
 `;
 
-export const Editor = ({ className = '' }: { className?: string }) => {
+export const Editor = ({
+  className = '',
+  shader,
+}: {
+  className?: string;
+  shader?: WorkInfo | undefined;
+}) => {
   const [glsl, setGLSL] = useState(defaultGLSL);
-  const [playingGLSL, setPlayingGLSL] = useState(glsl);
-  const [name, setName] = useState('aaaaa');
-  const [tag, setTag] = useState(['aaaaa']);
+  const [playingGLSL, setPlayingGLSL] = useState(defaultGLSL);
+  const [name, setName] = useState('Title');
+  const [tag, setTag] = useState(['tags']);
   const [errors, setErrors] = useState<Ace.Annotation[]>([]);
+
+  useEffect(() => {
+    setGLSL(shader ? shader.detail.shader : defaultGLSL);
+    setName(shader ? shader.detail.title : 'Title');
+    setTag(shader ? shader.detail.tags : ['tags']);
+    setPlayingGLSL(shader ? shader.detail.shader : defaultGLSL);
+  }, [shader]);
 
   return (
     <main className={`${className} flex flex-col w-full`}>
