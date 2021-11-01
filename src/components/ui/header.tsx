@@ -51,7 +51,7 @@ const NavbarRight = () => {
     document.addEventListener('click', handler);
     return () => {
       document.removeEventListener('click', handler);
-    }
+    };
   }, []);
   return (
     <div ref={modalParentRef} className="h-12 flex items-center">

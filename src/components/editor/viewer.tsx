@@ -7,38 +7,40 @@ import React, { createRef, MutableRefObject, RefObject, useEffect, useRef, useSt
 import { Alert } from '../ui/alert';
 import hatoSrc from '../ui/hato.jpg';
 
-const initialize = (
-  filterRef: MutableRefObject<Filter | undefined>,
-  rendererRef: MutableRefObject<Renderer | undefined>,
-  image: HTMLImageElement,
-  glslRef: MutableRefObject<string | undefined>,
-  updateErrors: (newErrors: Ace.Annotation[]) => void,
-) => () => {
-  rendererRef.current = new Renderer({ image });
-  // shader compile error
-  try {
-    filterRef.current = new Filter(glslRef.current as string);
-    updateErrors([]);
-  } catch (e) {
-    const errorMes: Ace.Annotation[] = `${e}`
-      .split('ERROR: ')
-      .slice(1)
-      .map((mes) => {
-        const splited = mes.split(':');
-        const row = Number(splited[1]) - 4;
-        const error = splited.slice(2).join(':');
+const initialize =
+  (
+    filterRef: MutableRefObject<Filter | undefined>,
+    rendererRef: MutableRefObject<Renderer | undefined>,
+    image: HTMLImageElement,
+    glslRef: MutableRefObject<string | undefined>,
+    updateErrors: (newErrors: Ace.Annotation[]) => void
+  ) =>
+  () => {
+    rendererRef.current = new Renderer({ image });
+    // shader compile error
+    try {
+      filterRef.current = new Filter(glslRef.current as string);
+      updateErrors([]);
+    } catch (e) {
+      const errorMes: Ace.Annotation[] = `${e}`
+        .split('ERROR: ')
+        .slice(1)
+        .map((mes) => {
+          const splited = mes.split(':');
+          const row = Number(splited[1]) - 4;
+          const error = splited.slice(2).join(':');
 
-        return { row, column: 0, text: error, type: 'error' };
-      });
-    updateErrors(errorMes);
-  }
-  rendererRef.current.animate([filterRef.current as Filter]);
-}
+          return { row, column: 0, text: error, type: 'error' };
+        });
+      updateErrors(errorMes);
+    }
+    rendererRef.current.animate([filterRef.current as Filter]);
+  };
 
 const refreshShader = (
   filterRef: MutableRefObject<Filter | undefined>,
   glslRef: MutableRefObject<string | undefined>,
-  updateErrors: (newErrors: Ace.Annotation[]) => void,
+  updateErrors: (newErrors: Ace.Annotation[]) => void
 ) => {
   try {
     filterRef.current?.setShader(glslRef.current as string);
@@ -77,9 +79,24 @@ export const Viewer = ({
     let renderer: Renderer;
 
     if (imgRef.current?.complete) {
-      initialize(filterRef, rendererRef, imgRef.current as HTMLImageElement, glslRef, updateErrors)();
+      initialize(
+        filterRef,
+        rendererRef,
+        imgRef.current as HTMLImageElement,
+        glslRef,
+        updateErrors
+      )();
     } else {
-      imgRef?.current?.addEventListener('load', initialize(filterRef, rendererRef, imgRef.current as HTMLImageElement, glslRef, updateErrors));
+      imgRef?.current?.addEventListener(
+        'load',
+        initialize(
+          filterRef,
+          rendererRef,
+          imgRef.current as HTMLImageElement,
+          glslRef,
+          updateErrors
+        )
+      );
     }
 
     return () => {
@@ -88,15 +105,12 @@ export const Viewer = ({
     };
   };
 
-  
-
   useEffect(() => {
     if (!imgRef || !imgRef.current) return;
     return createFilter();
   }, []);
 
   useEffect(() => {
-
     glslRef.current = glsl;
     if (filterRef.current) refreshShader(filterRef, glslRef, updateErrors);
   }, [glsl]);

@@ -13,7 +13,13 @@ void main() {
 }
 `;
 
-export const Editor = ({ className = '', shader }: { className?: string, shader?: WorkInfo | undefined }) => {
+export const Editor = ({
+  className = '',
+  shader,
+}: {
+  className?: string;
+  shader?: WorkInfo | undefined;
+}) => {
   const [glsl, setGLSL] = useState(defaultGLSL);
   const [playingGLSL, setPlayingGLSL] = useState(defaultGLSL);
   const [name, setName] = useState('Title');

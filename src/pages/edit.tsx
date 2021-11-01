@@ -6,11 +6,15 @@ import { AuthPage } from '../components/common/auth';
 import { WorkInfo } from '../libs/firestore';
 import works from '../components/gallery/temp.json';
 
-export const Edit = ({ match:  {params : { id }}}: RouteComponentProps<{id: string}>) => {
-  const [shader, setShader] = useState<WorkInfo | undefined>()
+export const Edit = ({
+  match: {
+    params: { id },
+  },
+}: RouteComponentProps<{ id: string }>) => {
+  const [shader, setShader] = useState<WorkInfo | undefined>();
   setTimeout(() => {
     if (id === 'new') return;
-    setShader((works as WorkInfo[]).find(work => work.id === id) as WorkInfo);
+    setShader((works as WorkInfo[]).find((work) => work.id === id) as WorkInfo);
   }, 100);
   return (
     <AuthPage>
@@ -20,4 +24,4 @@ export const Edit = ({ match:  {params : { id }}}: RouteComponentProps<{id: stri
       </div>
     </AuthPage>
   );
-}
+};
