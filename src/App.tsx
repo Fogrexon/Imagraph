@@ -13,7 +13,7 @@ function App() {
       <AuthProvider>
         <Route path="/" component={Home} exact />
         <Route path="/gallery" component={Gallery} exact />
-        <Route path="/edit" component={Edit} exact />
+        <Route path="/edit/:id" component={Edit} exact />
         <Route path="/login" component={Login} exact />
       </AuthProvider>
     </BrowserRouter>

@@ -32,14 +32,16 @@ export const ControlBar = ({
   return (
     <div className="w-11/12 shadow rounded-md flex-grow-0 my-4 p-2">
       <div className="w-full h-12 px-4 py-2 flex flex-row items-center">
-        <Button onClick={() => playShader()}>
-          <AiFillPlayCircle className="text-2xl" />
-        </Button>
-        <Button onClick={() => saveShader()}>
-          <AiFillSave className="text-2xl" />
-        </Button>
+        <div className="flex-grow w-48">
+          <Button small onClick={() => playShader()}>
+            <AiFillPlayCircle className="text-2xl" />
+          </Button>
+          <Button small onClick={() => saveShader()}>
+            <AiFillSave className="text-2xl" />
+          </Button>
+        </div>
         <input
-          className="text-xl block flex-grow-0"
+          className="text-xl block flex-grow-0 w-full"
           value={name}
           onChange={(e) => updateName(e.target.value)}
         />
@@ -48,17 +50,16 @@ export const ControlBar = ({
         className="w-full h-12 px-4 py-2 flex flex-row items-center"
         onClick={() => setTagEditFlag(true)}
       >
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-        <div className="flex-grow-0">Tags:</div>
+        <div className="flex-grow">Tags:</div>
         {tagEditFlag ? (
           <input
-            className="block flex-grow-0 mx-2"
+            className="block flex-grow-0 mx-2 w-full"
             value={editTag}
             onChange={(e) => setEditTag(e.target.value)}
             onBlur={(e) => leaveHandler(e.target.value)}
           />
         ) : (
-          <div className="flex-grow-0">
+          <div className="flex-grow-0 w-full">
             {tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>
             ))}

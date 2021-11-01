@@ -1,63 +1,25 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import { Ace } from 'ace-builds';
 import { Filter, Renderer } from 'graphim';
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { createRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
 import { Alert } from '../ui/alert';
 import hatoSrc from '../ui/hato.jpg';
 
-// eslint-disable-next-line no-shadow
-export const Viewer = ({
-  glsl,
-  updateErrors,
-  errors,
-}: {
-  glsl: string;
-  updateErrors: (newErrors: Ace.Annotation[]) => void;
-  errors: Ace.Annotation[];
-}) => {
-  const imgRef = createRef<HTMLImageElement>();
-  const filter = useRef<Filter>();
-
-  const createFilter = () => {
-    let renderer: Renderer;
-    const initialize = (img: HTMLImageElement) => () => {
-      renderer = new Renderer({ image: img });
-      // shader compile error
-      try {
-        filter.current = new Filter(glsl);
-        updateErrors([]);
-      } catch (e) {
-        const errorMes: Ace.Annotation[] = `${e}`
-          .split('ERROR: ')
-          .slice(1)
-          .map((mes) => {
-            const splited = mes.split(':');
-            const row = Number(splited[1]) - 4;
-            const error = splited.slice(2).join(':');
-
-            return { row, column: 0, text: error, type: 'error' };
-          });
-        updateErrors(errorMes);
-      }
-      renderer.animate([filter.current as Filter]);
-    };
-
-    if (imgRef.current?.complete) {
-      initialize(imgRef.current)();
-    } else {
-      imgRef?.current?.addEventListener('load', initialize(imgRef.current));
-    }
-
-    return () => {
-      renderer?.stopAnimate();
-      renderer?.release();
-    };
-  };
-
-  const refreshShader = () => {
+const initialize =
+  (
+    filterRef: MutableRefObject<Filter | undefined>,
+    rendererRef: MutableRefObject<Renderer | undefined>,
+    image: HTMLImageElement,
+    glslRef: MutableRefObject<string | undefined>,
+    updateErrors: (newErrors: Ace.Annotation[]) => void
+  ) =>
+  () => {
+    rendererRef.current = new Renderer({ image });
+    // shader compile error
     try {
-      filter.current?.setShader(glsl);
+      filterRef.current = new Filter(glslRef.current as string);
       updateErrors([]);
     } catch (e) {
       const errorMes: Ace.Annotation[] = `${e}`
@@ -72,6 +34,75 @@ export const Viewer = ({
         });
       updateErrors(errorMes);
     }
+    rendererRef.current.animate([filterRef.current as Filter]);
+  };
+
+const refreshShader = (
+  filterRef: MutableRefObject<Filter | undefined>,
+  glslRef: MutableRefObject<string | undefined>,
+  updateErrors: (newErrors: Ace.Annotation[]) => void
+) => {
+  try {
+    filterRef.current?.setShader(glslRef.current as string);
+    updateErrors([]);
+  } catch (e) {
+    const errorMes: Ace.Annotation[] = `${e}`
+      .split('ERROR: ')
+      .slice(1)
+      .map((mes) => {
+        const splited = mes.split(':');
+        const row = Number(splited[1]) - 4;
+        const error = splited.slice(2).join(':');
+
+        return { row, column: 0, text: error, type: 'error' };
+      });
+    updateErrors(errorMes);
+  }
+};
+
+// eslint-disable-next-line no-shadow
+export const Viewer = ({
+  glsl,
+  updateErrors,
+  errors,
+}: {
+  glsl: string;
+  updateErrors: (newErrors: Ace.Annotation[]) => void;
+  errors: Ace.Annotation[];
+}) => {
+  const imgRef = createRef<HTMLImageElement>();
+  const rendererRef = useRef<Renderer>();
+  const filterRef = useRef<Filter>();
+  const glslRef = useRef<string>(glsl);
+
+  const createFilter = () => {
+    let renderer: Renderer;
+
+    if (imgRef.current?.complete) {
+      initialize(
+        filterRef,
+        rendererRef,
+        imgRef.current as HTMLImageElement,
+        glslRef,
+        updateErrors
+      )();
+    } else {
+      imgRef?.current?.addEventListener(
+        'load',
+        initialize(
+          filterRef,
+          rendererRef,
+          imgRef.current as HTMLImageElement,
+          glslRef,
+          updateErrors
+        )
+      );
+    }
+
+    return () => {
+      renderer?.stopAnimate();
+      renderer?.release();
+    };
   };
 
   useEffect(() => {
@@ -80,7 +111,8 @@ export const Viewer = ({
   }, []);
 
   useEffect(() => {
-    refreshShader();
+    glslRef.current = glsl;
+    if (filterRef.current) refreshShader(filterRef, glslRef, updateErrors);
   }, [glsl]);
 
   return (
