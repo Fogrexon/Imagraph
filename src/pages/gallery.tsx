@@ -5,9 +5,7 @@ import { Navbar } from '../components/ui/header';
 
 export const Gallery = () => (
   <AuthPage>
-    <div>
-      <Navbar />
-      <CardList />
-    </div>
+    <Navbar />
+    <CardList />
   </AuthPage>
 );

@@ -43,7 +43,7 @@ export const Card = ({ item }: { item: WorkInfo }) => {
       <div className="absolute text-white top-0 left-0 w-full h-full flex flex-col items-center bg-gray-700 bg-opacity-70 opacity-0 hover:opacity-100 duration-300">
         <div className="flex flex-row items-center w-full px-2 py-1">
           <Actor />
-          <Link to="/gallery">
+          <Link to={`/edit/${item.id}`}>
             <h2 className="text-xl mx-4 my-2 flex-grow-0 hover:underline transition-all duration-500">
               {item.detail.title}
             </h2>
