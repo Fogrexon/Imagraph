@@ -79,7 +79,6 @@ export const Viewer = ({
     if (imgRef.current?.complete) {
       initialize(filterRef, rendererRef, imgRef.current as HTMLImageElement, glslRef, updateErrors)();
     } else {
-      console.log("load", glsl);
       imgRef?.current?.addEventListener('load', initialize(filterRef, rendererRef, imgRef.current as HTMLImageElement, glslRef, updateErrors));
     }
 
