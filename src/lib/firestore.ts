@@ -6,14 +6,14 @@ import {
   doc,
   query,
   limit,
-  where,
   getDoc,
+  CollectionReference,
 } from 'firebase/firestore';
 import { firestore } from './firebase';
-import { WorkDetail, WorkInfo } from './types';
+import { User, WorkDetail, WorkInfo } from './types';
 
 const userCollection = collection(firestore, 'user');
-const workCollection = collection(firestore, 'gallery');
+let workCollection: CollectionReference | null = null;
 // const latestWork = orderBy('updatedAt', 'desc');
 
 // const initializer = (userid: string) => {
@@ -21,44 +21,67 @@ const workCollection = collection(firestore, 'gallery');
 // }
 
 // works
-const snapshotToList = (list: any, userid: string) => {
+const snapshotToList = (list: any) => {
   const items: WorkInfo[] = [];
   list.forEach((item: any) => {
     const d = item.data();
     items.push({
       id: item.id,
       detail: {
+        userRef: d.userRef,
         title: d.title,
-        shader: d.shader,
-        tags: [],
-        userid,
+        shaders: d.shaders,
+        tree: d.tree,
+        tags: d.tags,
       },
     });
   });
   return items;
 };
-const getWorkList = async (userid: string, maxWorkCount?: number) => {
+
+export const initializeWorkCollection = (userid: string) => {
+  workCollection = collection(firestore, 'user', userid, 'gallery');
+}
+const getWorkList = async (maxWorkCount?: number) => {
+  if (!workCollection) {
+    console.warn('firestore workcollection is not initialized.');
+    return;
+  }
   const workDatabase = await (maxWorkCount
-    ? getDocs(query(workCollection, where('userid', '==', userid), limit(maxWorkCount)))
-    : getDocs(query(workCollection, where('userid', '==', userid))));
-  return snapshotToList(workDatabase, userid);
+    ? getDocs(query(workCollection, limit(maxWorkCount)))
+    : getDocs(query(workCollection)));
+  return snapshotToList(workDatabase);
 };
 
-const updateWork = (id: string, workDetail: WorkDetail) =>
-  setDoc(doc(workCollection, id), workDetail);
+const updateWork = (id: string, workDetail: WorkDetail) => {
+  if (!workCollection) {
+    console.warn('firestore workcollection is not initialized.');
+    return;
+  }
+  return setDoc(doc(workCollection, id), workDetail);
+}
 
-const addWork = (workDetail: WorkDetail) => addDoc(workCollection, workDetail);
+const addWork = (workDetail: WorkDetail) => {
+  if (!workCollection) {
+    console.warn('firestore workcollection is not initialized.');
+    return;
+  }
+  addDoc(workCollection, workDetail);
+}
 
-const createUser = async (userid: string, name: string) =>
-  // eslint-disable-next-line no-return-await
-  await setDoc(doc(userCollection, userid), {
-    userid,
-    name,
-  });
-
-const hasUser = async (userid: string) => {
+const getUser = async (userid: string): Promise<User | null> => {
   const userSnap = await getDoc(doc(userCollection, userid));
-  return userSnap.exists();
+  if (!userSnap.exists()) return null;
+  return userSnap.data() as User;
 };
 
-export { getWorkList, updateWork, addWork, createUser, hasUser };
+const createUser = async (userid: string, name: string, photoURL: string) => {
+  if (await getUser(userid)) return;
+  setDoc(doc(userCollection, userid), {
+    displayName: name,
+    photoURL,
+  });
+}
+
+
+export { getWorkList, updateWork, addWork, createUser, getUser };
