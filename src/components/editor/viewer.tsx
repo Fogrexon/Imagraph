@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import { Ace } from 'ace-builds';
 import { Filter, Renderer } from 'graphim';
-import React, { createRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
+import React, { createRef, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Alert } from '../ui/alert';
 import hatoImg from '../ui/hato.jpg';
 

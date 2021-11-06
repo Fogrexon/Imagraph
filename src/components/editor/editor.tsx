@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import { Ace } from 'ace-builds';
 import React, { useEffect, useState } from 'react';
-import { WorkInfo } from '../../lib/firestore';
+import { WorkInfo } from '../../lib/types';
 import { AceEditor } from './ace';
 import { ControlBar } from './control-bar';
 import { Viewer } from './viewer';
