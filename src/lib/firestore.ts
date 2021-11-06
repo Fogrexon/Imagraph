@@ -10,6 +10,7 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { firestore } from './firebase';
+import { WorkDetail, WorkInfo } from './types';
 
 const userCollection = collection(firestore, 'user');
 const workCollection = collection(firestore, 'gallery');
