@@ -2,13 +2,15 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { Ace } from 'ace-builds';
 
-const ReactAceEdit = dynamic(async () => {
-  const ace = await import('react-ace');
-  await import("ace-builds/src-noconflict/mode-glsl");
-  await import("ace-builds/src-noconflict/theme-twilight");
-  return ace;
-
-}, { ssr: false });
+const ReactAceEdit = dynamic(
+  async () => {
+    const ace = await import('react-ace');
+    await import('ace-builds/src-noconflict/mode-glsl');
+    await import('ace-builds/src-noconflict/theme-twilight');
+    return ace;
+  },
+  { ssr: false }
+);
 
 // eslint-disable-next-line no-unused-vars
 export const AceEditor = ({

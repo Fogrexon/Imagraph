@@ -3,7 +3,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import '../styles/globals.css';
 
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
 import { AuthProvider } from '../src/components/common/auth';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -13,4 +13,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     </AuthProvider>
   );
 }
-export default MyApp
+export default MyApp;

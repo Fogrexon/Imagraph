@@ -44,7 +44,10 @@ export const Card = ({ item }: { item: WorkInfo }) => {
         <div className="flex flex-row items-center w-full px-2 py-1">
           <Actor />
           <Link href={`/edit/${item.id}`} passHref>
-            <a href="dummey" className="text-xl mx-4 my-2 flex-grow-0 hover:underline transition-all duration-500">
+            <a
+              href="dummey"
+              className="text-xl mx-4 my-2 flex-grow-0 hover:underline transition-all duration-500"
+            >
               {item.detail.title}
             </a>
           </Link>

@@ -20,7 +20,6 @@ const workCollection = collection(firestore, 'gallery');
 //   workCollection = getDocs();
 // }
 
-
 // works
 const snapshotToList = (list: any, userid: string) => {
   const items: WorkInfo[] = [];

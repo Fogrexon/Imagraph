@@ -11,7 +11,9 @@ export const Actor = ({
   size?: SizeKey;
 }) => (
   <span
-    className={`${{small: 'w-4 h-4', middle: 'w-8 h-8', large: 'w-14 h-14'}[size]} inline-block align-middle overflow-hidden flex-grow-1 delay-300 hover:outline-black`}
+    className={`${
+      { small: 'w-4 h-4', middle: 'w-8 h-8', large: 'w-14 h-14' }[size]
+    } inline-block align-middle overflow-hidden flex-grow-1 delay-300 hover:outline-black`}
     style={{ borderRadius: '100px' }}
   >
     {src ? <img src={src} alt="user" className="w-full h-full m-0 p-0" /> : ''}

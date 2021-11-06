@@ -16,14 +16,20 @@ const CenterContent = () => (
     </p>
     <div>
       <ButtonLink primary href="/edit">
-        <span>Create New Filter <BiRightArrowAlt className="inline" /></span>
+        <span>
+          Create New Filter <BiRightArrowAlt className="inline" />
+        </span>
       </ButtonLink>
       <ButtonLink primary href="/gallery">
-      <span>Open Gallery <BiRightArrowAlt className="inline" /></span>
+        <span>
+          Open Gallery <BiRightArrowAlt className="inline" />
+        </span>
       </ButtonLink>
     </div>
     <ButtonLink href="/">
-    <span>Get Started <BiRightArrowAlt className="inline" /></span>
+      <span>
+        Get Started <BiRightArrowAlt className="inline" />
+      </span>
     </ButtonLink>
   </div>
 );
