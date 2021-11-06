@@ -3,10 +3,10 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'plugin:react/recommended',
+  "extends": [
     'airbnb',
     'eslint-config-prettier',
+    "next/core-web-vitals",
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -53,4 +53,4 @@ module.exports = {
     "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
     "react/require-default-props": "off"
   }
-};
+}
