@@ -1,5 +1,5 @@
 import React, { ReactNode, MouseEventHandler } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export const Button = ({
   children,
@@ -39,16 +39,18 @@ export const ButtonLink = ({
   href: string;
   children: ReactNode;
 }) => (
-  <Link
-    to={href}
-    className={`inline-block mx-2 my-2${
-      small ? ' px-2 py-1 text-sm font-medium rounded-md' : ' px-4 py-2 rounded-xl'
-    } transition-colors duration-1 ${
-      primary
-        ? 'bg-blue-700 text-white hover:bg-blue-900'
-        : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
-    }`}
-  >
-    {children}
+  <Link href={href} passHref>
+    <a
+      href="dummy"
+      className={`inline-block mx-2 my-2${
+        small ? ' px-2 py-1 text-sm font-medium rounded-md' : ' px-4 py-2 rounded-xl'
+      } transition-colors duration-1 ${
+        primary
+          ? 'bg-blue-700 text-white hover:bg-blue-900'
+          : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
+      }`}
+    >
+      {children}
+    </a>
   </Link>
 );

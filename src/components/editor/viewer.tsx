@@ -3,9 +3,9 @@
 /* eslint-disable no-unused-vars */
 import { Ace } from 'ace-builds';
 import { Filter, Renderer } from 'graphim';
-import React, { createRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react';
+import React, { createRef, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Alert } from '../ui/alert';
-import hatoSrc from '../ui/hato.jpg';
+import hatoImg from '../ui/hato.jpg';
 
 const initialize =
   (
@@ -117,7 +117,7 @@ export const Viewer = ({
 
   return (
     <div className="relative flex justify-center w-full">
-      <img ref={imgRef} alt="preview" className="w-11/12 shadow rounded-md" src={hatoSrc} />
+      <img ref={imgRef} alt="preview" className="w-11/12 shadow rounded-md" src={hatoImg.src} />
       <div
         className={`absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center transition-opacity duration-500 bg-gray-700 bg-opacity-70 ${
           errors.length === 0 ? 'opacity-0' : 'opacity-100'

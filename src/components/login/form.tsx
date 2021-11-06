@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { Redirect } from 'react-router-dom';
-import { auth } from '../../libs/firebase';
-import { createUser, hasUser } from '../../libs/firestore';
+import { auth } from '../../lib/firebase';
+import { createUser, hasUser } from '../../lib/firestore';
 import { Alert } from '../ui/alert';
 
 const GoogleLogin = () => {
@@ -35,7 +34,6 @@ const GoogleLogin = () => {
         loggedIn === true ? (
           <>
             <Alert>Success. </Alert>
-            <Redirect to="/gallery" />
           </>
         ) : loggedIn === false ? (
           ''
