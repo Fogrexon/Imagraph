@@ -18,7 +18,7 @@ export const Editor = ({
   shader,
 }: {
   className?: string;
-  shader?: WorkInfo | undefined;
+  shader?: WorkInfo | undefined | null;
 }) => {
   const [glsl, setGLSL] = useState(defaultGLSL);
   const [playingGLSL, setPlayingGLSL] = useState(defaultGLSL);
