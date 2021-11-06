@@ -7,14 +7,14 @@ export const Loading = () => {
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       console.log(window);
       setIntervalID(
         window.setInterval(() => {
           setRotation(rot + 1);
         }, 1000 / 60)
       );
-  
+
       return () => {
         if (interval >= 0) {
           clearInterval(interval);

@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
     });
 
     return () => unsubscribe();
-  }, [])
+  }, []);
 
   return (
     <AuthContext.Provider

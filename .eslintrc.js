@@ -51,6 +51,8 @@ module.exports = {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "@next/next/no-img-element": "off",
+    "react-hooks/exhaustive-deps": "off"
   }
 }
