@@ -14,11 +14,6 @@ import { User, WorkDetail, WorkInfo } from './types';
 
 const userCollection = collection(firestore, 'user');
 let workCollection: CollectionReference | null = null;
-// const latestWork = orderBy('updatedAt', 'desc');
-
-// const initializer = (userid: string) => {
-//   workCollection = getDocs();
-// }
 
 // works
 const snapshotToList = (list: any) => {
@@ -78,6 +73,7 @@ const getUser = async (userid: string): Promise<User | null> => {
 const createUser = async (userid: string, name: string, photoURL: string) => {
   if (await getUser(userid)) return;
   setDoc(doc(userCollection, userid), {
+    id: userid,
     displayName: name,
     photoURL,
   });

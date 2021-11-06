@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
-import { createUser, hasUser } from '../../lib/firestore';
+import { createUser, getUser } from '../../lib/firestore';
 import { Alert } from '../ui/alert';
 
 const GoogleLogin = () => {
@@ -13,9 +13,9 @@ const GoogleLogin = () => {
         const { user } = result;
 
         setLoggedIn(true);
-        hasUser(user.uid).then((flag) => {
-          if (!flag) {
-            createUser(user.uid, user.displayName as string);
+        getUser(user.uid).then((serverUser) => {
+          if (!serverUser) {
+            createUser(user.uid, user.displayName as string, user.photoURL as string);
           }
         });
       })

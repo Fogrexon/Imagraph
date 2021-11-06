@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import React, { createRef, useEffect } from 'react';
-import { Renderer, Filter } from 'graphim';
+import { Renderer, Filter, DefaultInput } from 'graphim';
 import Link from 'next/link';
 import hatoImg from './hato.jpg';
 import { Tag } from './tag';
@@ -13,10 +13,13 @@ export const Card = ({ item }: { item: WorkInfo }) => {
     if (!imgRef || !imgRef.current) return;
     let renderer: Renderer;
     let filter: Filter;
+    let input: DefaultInput;
     const initialize = () => {
       renderer = new Renderer({ image: imgRef.current as HTMLImageElement });
-      filter = new Filter(item.detail.shader);
-      renderer.animate([filter]);
+      filter = new Filter(item.detail.shaders.default.shader as string);
+      input = new DefaultInput();
+      filter.connect(input);
+      renderer.animate(filter);
     };
 
     if (imgRef.current.complete) {

@@ -1,10 +1,9 @@
 import { CollectionReference } from "firebase/firestore";
 
 export interface User {
+  id: string;
   displayName: string | null | undefined;
-  email: string | null | undefined;
   photoURL: string | null | undefined;
-  getIdToken: () => Promise<string | null | undefined>;
 }
 
 // data schema
@@ -17,7 +16,7 @@ export interface UniformVariable {
 
 export interface ShaderDetail {
   name: string;
-  shader: string;
+  shader?: string;
   uniforms: UniformVariable[];
 }
 

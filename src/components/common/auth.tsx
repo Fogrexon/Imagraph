@@ -1,10 +1,12 @@
 import React, { useState, createContext, useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
+import { User as FirebaseUser } from 'firebase/auth';
 import { auth as firebaseAuth } from '../../lib/firebase';
 import { Loading } from '../ui/loading';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
 import { User } from '../../lib/types';
+import { getUser, initializeWorkCollection } from '../../lib/firestore';
 
 interface AuthInfo {
   loggedIn: boolean;
@@ -78,11 +80,14 @@ export const AuthProvider = ({ children }: { children: any }) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = firebaseAuth.onAuthStateChanged(async (userData: User | null) => {
+    const unsubscribe = firebaseAuth.onAuthStateChanged(async (userData: FirebaseUser | null) => {
       setChecked(true);
       setLoginStatus(!!userData);
-      setUser(userData);
+      setUser(await getUser(await userData?.getIdToken() as string));
       setCookie('authToken', await userData?.getIdToken());
+      if (userData) {+
+        initializeWorkCollection(await userData?.getIdToken());
+      }
     });
 
     return () => unsubscribe();

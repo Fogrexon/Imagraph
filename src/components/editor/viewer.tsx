@@ -2,7 +2,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-unused-vars */
 import { Ace } from 'ace-builds';
-import { Filter, Renderer } from 'graphim';
+import { DefaultInput, Filter, Renderer } from 'graphim';
 import React, { createRef, MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Alert } from '../ui/alert';
 import hatoImg from '../ui/hato.jpg';
@@ -11,6 +11,7 @@ const initialize =
   (
     filterRef: MutableRefObject<Filter | undefined>,
     rendererRef: MutableRefObject<Renderer | undefined>,
+    defaultInputRef: MutableRefObject<DefaultInput | undefined>,
     image: HTMLImageElement,
     glslRef: MutableRefObject<string | undefined>,
     updateErrors: (newErrors: Ace.Annotation[]) => void
@@ -20,6 +21,8 @@ const initialize =
     // shader compile error
     try {
       filterRef.current = new Filter(glslRef.current as string);
+      defaultInputRef.current = new DefaultInput();
+      filterRef.current.connect(defaultInputRef.current)
       updateErrors([]);
     } catch (e) {
       const errorMes: Ace.Annotation[] = `${e}`
@@ -34,7 +37,7 @@ const initialize =
         });
       updateErrors(errorMes);
     }
-    rendererRef.current.animate([filterRef.current as Filter]);
+    rendererRef.current.animate(filterRef.current as Filter);
   };
 
 const refreshShader = (
@@ -73,15 +76,16 @@ export const Viewer = ({
   const imgRef = createRef<HTMLImageElement>();
   const rendererRef = useRef<Renderer>();
   const filterRef = useRef<Filter>();
+  const defaultInputRef = useRef<DefaultInput>();
   const glslRef = useRef<string>(glsl);
 
   const createFilter = () => {
-    let renderer: Renderer;
 
     if (imgRef.current?.complete) {
       initialize(
         filterRef,
         rendererRef,
+        defaultInputRef,
         imgRef.current as HTMLImageElement,
         glslRef,
         updateErrors
@@ -92,6 +96,7 @@ export const Viewer = ({
         initialize(
           filterRef,
           rendererRef,
+          defaultInputRef,
           imgRef.current as HTMLImageElement,
           glslRef,
           updateErrors
@@ -100,8 +105,10 @@ export const Viewer = ({
     }
 
     return () => {
-      renderer?.stopAnimate();
-      renderer?.release();
+      rendererRef.current?.stopAnimate();
+      rendererRef.current?.release();
+      filterRef.current?.release();
+      defaultInputRef.current?.release();
     };
   };
 
