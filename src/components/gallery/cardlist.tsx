@@ -1,5 +1,5 @@
 import React from 'react';
-import { WorkInfo } from '../../libs/firestore';
+import { WorkInfo } from '../../lib/types';
 import { Card } from '../ui/card';
 import items from './temp.json';
 

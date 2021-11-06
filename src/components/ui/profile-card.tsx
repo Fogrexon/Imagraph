@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext } from 'react';
-import { auth } from '../../libs/firebase';
+import { auth } from '../../lib/firebase';
 import { AuthContext } from '../common/auth';
 import { Actor } from './actor';
 import { Button } from './button';

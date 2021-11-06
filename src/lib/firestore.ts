@@ -10,6 +10,7 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { firestore } from './firebase';
+import { WorkDetail, WorkInfo } from './types';
 
 const userCollection = collection(firestore, 'user');
 const workCollection = collection(firestore, 'gallery');
@@ -18,17 +19,6 @@ const workCollection = collection(firestore, 'gallery');
 // const initializer = (userid: string) => {
 //   workCollection = getDocs();
 // }
-
-export interface WorkDetail {
-  title: string;
-  shader: string;
-  tags: string[];
-  userid: string;
-}
-export interface WorkInfo {
-  id: string;
-  detail: WorkDetail;
-}
 
 // works
 const snapshotToList = (list: any, userid: string) => {

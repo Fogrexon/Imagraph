@@ -1,8 +1,16 @@
 import React from 'react';
-import ReactAce from 'react-ace';
-import 'ace-builds/src-noconflict/mode-glsl';
-import 'ace-builds/src-noconflict/theme-twilight';
+import dynamic from 'next/dynamic';
 import { Ace } from 'ace-builds';
+
+const ReactAceEdit = dynamic(
+  async () => {
+    const ace = await import('react-ace');
+    await import('ace-builds/src-noconflict/mode-glsl');
+    await import('ace-builds/src-noconflict/theme-twilight');
+    return ace;
+  },
+  { ssr: false }
+);
 
 // eslint-disable-next-line no-unused-vars
 export const AceEditor = ({
@@ -16,7 +24,7 @@ export const AceEditor = ({
   errors: Ace.Annotation[];
 }) => (
   <div className="relative flex justify-center items-center flex-grow h-96 md:h-full w-full md:w-2/4 lg:w-3/5">
-    <ReactAce
+    <ReactAceEdit
       mode="glsl"
       theme="twilight"
       value={glsl}
