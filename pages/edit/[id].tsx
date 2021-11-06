@@ -2,8 +2,8 @@ import { NextPageContext } from 'next';
 import { Navbar } from '../../src/components/ui/header';
 import { Editor } from '../../src/components/editor/editor';
 import { AuthPage } from '../../src/components/common/auth';
-import { WorkInfo } from '../../src/lib/firestore';
 import works from '../../src/components/gallery/temp.json';
+import { WorkInfo } from '../../src/lib/types';
 
 const Edit = ({shaderData}: {shaderData: WorkInfo | null | undefined}) => {
   setTimeout(() => {
