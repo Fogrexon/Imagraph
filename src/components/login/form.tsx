@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../../libs/firebase';
-import { createUser, hasUser } from '../../libs/firestore';
+import { auth } from '../../lib/firebase';
+import { createUser, hasUser } from '../../lib/firestore';
 import { Alert } from '../ui/alert';
 
 const GoogleLogin = () => {

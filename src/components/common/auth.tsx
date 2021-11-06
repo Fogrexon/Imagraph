@@ -1,10 +1,10 @@
 import React, { useState, createContext, useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
-import { auth as firebaseAuth } from '../../libs/firebase';
+import { auth as firebaseAuth } from '../../lib/firebase';
 import { Loading } from '../ui/loading';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
-import { User } from '../../libs/types';
+import { User } from '../../lib/types';
 
 interface AuthInfo {
   loggedIn: boolean;

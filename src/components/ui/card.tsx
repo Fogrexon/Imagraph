@@ -2,7 +2,7 @@
 import React, { createRef, useEffect } from 'react';
 import { Renderer, Filter } from 'graphim';
 import Link from 'next/link';
-import { WorkInfo } from '../../libs/firestore';
+import { WorkInfo } from '../../lib/firestore';
 import hatoImg from './hato.jpg';
 import { Tag } from './tag';
 import { Actor } from './actor';
