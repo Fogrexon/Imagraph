@@ -19,16 +19,6 @@ const workCollection = collection(firestore, 'gallery');
 //   workCollection = getDocs();
 // }
 
-export interface WorkDetail {
-  title: string;
-  shader: string;
-  tags: string[];
-  userid: string;
-}
-export interface WorkInfo {
-  id: string;
-  detail: WorkDetail;
-}
 
 // works
 const snapshotToList = (list: any, userid: string) => {
