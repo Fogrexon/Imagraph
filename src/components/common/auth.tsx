@@ -1,10 +1,10 @@
-import React, { useState, createContext, useContext } from 'react';
-import { User } from 'firebase/auth';
+import React, { useState, createContext, useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { auth as firebaseAuth } from '../../libs/firebase';
 import { Loading } from '../ui/loading';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
+import { User } from '../../libs/types';
 
 interface AuthInfo {
   loggedIn: boolean;
@@ -77,12 +77,16 @@ export const AuthProvider = ({ children }: { children: any }) => {
   const [checked, setChecked] = useState(!!cookie);
   const [user, setUser] = useState<User | null>(null);
 
-  firebaseAuth.onAuthStateChanged(async (userData) => {
-    setChecked(true);
-    setLoginStatus(!!userData);
-    setUser(userData);
-    setCookie('authToken', await userData?.getIdToken());
-  });
+  useEffect(() => {
+    const unsubscribe = firebaseAuth.onAuthStateChanged(async (userData: User | null) => {
+      setChecked(true);
+      setLoginStatus(!!userData);
+      setUser(userData);
+      setCookie('authToken', await userData?.getIdToken());
+    });
+
+    return () => unsubscribe();
+  }, [])
 
   return (
     <AuthContext.Provider
