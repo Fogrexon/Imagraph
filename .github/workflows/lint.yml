@@ -12,4 +12,4 @@ jobs:
       - name: Install packages
         run: npm ci
       - name: Format check
-        run: npm run check
+        run: npm run lint
