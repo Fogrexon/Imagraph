@@ -2,10 +2,10 @@
 import React, { createRef, useEffect } from 'react';
 import { Renderer, Filter } from 'graphim';
 import Link from 'next/link';
-import { WorkInfo } from '../../lib/firestore';
 import hatoImg from './hato.jpg';
 import { Tag } from './tag';
 import { Actor } from './actor';
+import { WorkInfo } from '../../lib/types';
 
 export const Card = ({ item }: { item: WorkInfo }) => {
   const imgRef = createRef<HTMLImageElement>();
