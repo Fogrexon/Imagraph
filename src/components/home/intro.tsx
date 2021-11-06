@@ -15,7 +15,7 @@ const CenterContent = () => (
       シェーダーを書いてオリジナルのカメラフィルターを作りましょう。
     </p>
     <div>
-      <ButtonLink primary href="/edit">
+      <ButtonLink primary href="/edit/new">
         <span>
           Create New Filter <BiRightArrowAlt className="inline" />
         </span>
