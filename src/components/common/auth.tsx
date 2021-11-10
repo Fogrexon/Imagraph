@@ -1,35 +1,18 @@
 import React, { useState, createContext, useContext, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { User as FirebaseUser } from 'firebase/auth';
+import firebase from 'firebase/app';
+import nookies from 'nookies';
 import { auth as firebaseAuth } from '../../lib/firebase';
-import { Loading } from '../ui/loading';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
 import { User } from '../../lib/types';
-import { getUser, initializeWorkCollection } from '../../lib/firestore';
 
-interface AuthInfo {
-  loggedIn: boolean;
-  checked: boolean;
-  user: User | null;
-}
-
-export const AuthContext = createContext<AuthInfo>({
-  loggedIn: false,
-  checked: false,
-  user: null,
-});
+export const AuthContext = createContext<User | null>(null);
 
 const AuthAlert = ({
-  loading = true,
   loggedIn = false,
 }: {
-  loading?: boolean;
   loggedIn?: boolean;
 }) => {
-  if (loading) {
-    return <Loading />;
-  }
   if (loggedIn) return <></>;
   return (
     <div>
@@ -49,59 +32,63 @@ const AuthAlert = ({
 };
 
 export const AuthPage = ({ children }: { children: any }) => {
-  const { loggedIn, checked } = useContext(AuthContext);
+  const user = useContext(AuthContext);
 
   return (
     <div className="relative">
       <div
-        className={`relative w-full m-0 p-0${checked && loggedIn ? '' : ' blur-md'}`}
+        className={`relative w-full m-0 p-0${user ? '' : ' blur-md'}`}
         style={{
-          filter: checked && loggedIn ? 'none' : 'blur(12px)',
+          filter: user ? 'none' : 'blur(12px)',
         }}
       >
         {children}
       </div>
       <div
         className={`fixed top-0 left-0 w-screen h-screen flex items-center justify-center${
-          checked && loggedIn ? ' hidden' : ''
+          user ? ' hidden' : ''
         }`}
       >
-        <AuthAlert loading={!checked} loggedIn={loggedIn} />
+        <AuthAlert loggedIn={!!user} />
       </div>
     </div>
   );
 };
 
 export const AuthProvider = ({ children }: { children: any }) => {
-  const [cookie, setCookie] = useCookies(['authToken']);
 
-  const [loggedIn, setLoginStatus] = useState(!!cookie);
-  const [checked, setChecked] = useState(!!cookie);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = firebaseAuth.onAuthStateChanged(async (userData: FirebaseUser | null) => {
-      setChecked(true);
-      setLoginStatus(!!userData);
-      setUser(await getUser(await userData?.getIdToken() as string));
-      setCookie('authToken', await userData?.getIdToken());
-      if (userData) {+
-        initializeWorkCollection(await userData?.getIdToken());
+    const unsubscribe = firebaseAuth.onIdTokenChanged(async (userData: firebase.User | null) => {
+      if (!userData) {
+        setUser(null);
+        nookies.set(undefined, 'token', '', { path: '/' })
+      } else {
+        const token = await userData.getIdToken();
+        setUser({
+          displayName: userData.displayName,
+          photoURL: userData.photoURL,
+          id: token,
+        });
+        nookies.set(undefined, 'token', token, { path: '/' });
       }
     });
 
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const handle = setInterval(async () => {
+      const userData = firebaseAuth.currentUser as firebase.User;
+      if (user) await userData.getIdToken(true);
+    }, 10 * 60 * 1000);
+
+    // clean up setInterval
+    return () => clearInterval(handle);
+  }, []);
+
   return (
-    <AuthContext.Provider
-      value={{
-        loggedIn,
-        checked,
-        user,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
   );
 };

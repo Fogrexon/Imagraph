@@ -4,6 +4,7 @@ import { Editor } from '../../src/components/editor/editor';
 import { AuthPage } from '../../src/components/common/auth';
 import works from '../../src/components/gallery/temp.json';
 import { WorkInfo } from '../../src/lib/types';
+import { getWorkList } from '../../src/lib/firestoreAdmin';
 
 const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
   setTimeout(() => {
@@ -20,9 +21,10 @@ const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
   );
 };
 
-Edit.getInitialProps = async (ctx: NextPageContext) => {
+Edit.getServerSideProps = async (ctx: NextPageContext) => {
   const shaderID = ctx.query.id;
   if (shaderID === 'new') return {};
+  const data = await getWorkList()
   // eslint-disable-next-line consistent-return
   return { shaderData: (works as WorkInfo[]).find((work) => work.id === shaderID) as WorkInfo };
 };

@@ -1,8 +1,7 @@
-import { firestore } from './firebase';
+import { firestore } from './firebaseAdmin';
 import { User, WorkDetail, WorkInfo } from './types';
 
 const userCollection = firestore.collection('user');
-let workCollection: typeof userCollection | null = null;
 
 // works
 const snapshotToList = (list: any) => {
@@ -23,35 +22,17 @@ const snapshotToList = (list: any) => {
   return items;
 };
 
-export const initializeWorkCollection = (userid: string) => {
-  workCollection = userCollection.doc(userid).collection('gallery');
-}
-const getWorkList = async (maxWorkCount?: number) => {
-  if (!workCollection) {
-    console.warn('firestore workcollection is not initialized.');
-    return;
-  }
+export const getWorkCollection = (userid: string) => userCollection.doc(userid).collection('gallery');
+const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
-    ? workCollection.limit(maxWorkCount).get()
-    : workCollection.get());
+    ? getWorkCollection(userid).limit(maxWorkCount).get()
+    : getWorkCollection(userid).get());
   return snapshotToList(workDatabase);
 };
 
-const updateWork = (id: string, workDetail: WorkDetail) => {
-  if (!workCollection) {
-    console.warn('firestore workcollection is not initialized.');
-    return;
-  }
-  return workCollection.doc(id).set(workDetail);
-}
+const updateWork = (userid: string, id: string, workDetail: WorkDetail) => getWorkCollection(userid).doc(id).set(workDetail)
 
-const addWork = (workDetail: WorkDetail) => {
-  if (!workCollection) {
-    console.warn('firestore workcollection is not initialized.');
-    return;
-  }
-  workCollection.add(workDetail);
-}
+const addWork = (userid: string, workDetail: WorkDetail) => getWorkCollection(userid).add(workDetail);
 
 const getUser = async (userid: string): Promise<User | null> => {
   const userSnap = await userCollection.doc(userid).get();
