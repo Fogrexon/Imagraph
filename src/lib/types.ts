@@ -22,8 +22,8 @@ export interface ShaderDetail {
 
 export interface ShaderNode {
   type: NodeType;
-  id: string;
-  input: ShaderNode[];
+  id?: string;
+  input?: ShaderNode[];
 }
 
 export interface WorkDetail {

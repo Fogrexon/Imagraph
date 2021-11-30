@@ -14,7 +14,7 @@ const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
     <AuthPage>
       <div className="w-screen md:h-screen flex flex-col">
         <Navbar className="flex-grow-1" />
-        <Editor className="flex-grow" shader={shaderData} />
+        <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
       </div>
     </AuthPage>
   );

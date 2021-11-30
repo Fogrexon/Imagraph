@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
       setLoginStatus(!!userData);
       setUser(await getUser(await userData?.getIdToken() as string));
       setCookie('authToken', await userData?.getIdToken());
-      if (userData) {+
+      if (userData) {
         initializeWorkCollection(await userData?.getIdToken());
       }
     });

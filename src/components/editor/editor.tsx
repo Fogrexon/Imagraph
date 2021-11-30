@@ -19,7 +19,7 @@ export const Editor = ({
   shaderID,
 }: {
   className?: string;
-  shader?: WorkInfo | undefined | null;
+  shader?: WorkInfo;
   shaderID?: string
 }) => {
   const [glsl, setGLSL] = useState(shader && shaderID ? shader.detail.shaders[shaderID].shader as string : defaultGLSL);
