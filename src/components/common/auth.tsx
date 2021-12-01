@@ -1,12 +1,18 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext, useEffect, ReactNode } from 'react';
 import nookies from 'nookies';
-import { firebaseApp } from '../../lib/firebase';
-import { getAuth, onAuthStateChanged, signInWithRedirect, GoogleAuthProvider } from 'firebase/auth'
+import { auth } from '../../lib/firebase';
+import { getAuth, onAuthStateChanged, signInWithRedirect, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
 import { User } from '../../lib/types';
+import { getUser } from '../../lib/firestore';
 
-export const AuthContext = createContext<User | null>(null);
+interface AuthContextProps {
+  user: User | null;
+  // eslint-disable-next-line no-unused-vars
+  dispatcher?: (user: User | null) => void;
+}
+export const AuthContext = createContext<AuthContextProps>({user: null});
 
 const AuthAlert = ({
   loggedIn = false,
@@ -31,7 +37,7 @@ const AuthAlert = ({
   );
 };
 
-export const AuthPage = ({ children }: { children: any }) => {
+export const AuthPage = ({ children }: { children: ReactNode }) => {
   const user = useContext(AuthContext);
 
   return (
@@ -59,31 +65,9 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    const unsubscribe = firebaseAuth.onAuthStateChanged(async (userData: FirebaseUser | null) => {
-      setChecked(true);
-      setLoginStatus(!!userData);
-      setUser(await getUser(await userData?.getIdToken() as string));
-      setCookie('authToken', await userData?.getIdToken());
-      if (userData) {
-        initializeWorkCollection(await userData?.getIdToken());
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const handle = setInterval(async () => {
-      const userData = firebaseAuth.currentUser as firebase.User;
-      if (user) await userData.getIdToken(true);
-    }, 10 * 60 * 1000);
-
-    // clean up setInterval
-    return () => clearInterval(handle);
-  }, []);
+  const dispatcher = (newuser: User | null) => setUser(newuser);
 
   return (
-    <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{user, dispatcher}}>{children}</AuthContext.Provider>
   );
 };
