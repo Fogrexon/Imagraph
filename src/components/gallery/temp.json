@@ -2,27 +2,73 @@
   {
     "id": "id",
     "detail": {
-      "title": "taitoru",
+      "title": "One",
       "shaders": {
         "default": {
-          "name": "shader1",
-          "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv); }",
-          "uniforms": []
+          "name": "default",
+          "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv); }"
+        },
+        "input": {
+          "name": "default-input"
         }
       },
       "tree": {
         "type": "Filter",
-        "id": "id",
-        "input": [
-          {
-            "type": "Input"
-          }
-        ]
+        "id": "default",
+        "input": [{
+          "type": "Input",
+          "id": "input"
+        }]
       },
-      "tags": [
-        "tag",
-        "tag2"
-      ]
+      "tags": ["shader"]
+    }
+  },
+  {
+    "id": "bbbbb",
+    "detail": {
+      "title": "One",
+      "shaders": {
+        "default": {
+          "name": "default",
+          "shader": "void main() { gl_FragColor = vec4(vec3(1.0) - texture2D(renderTexture, vUv).rgb, 1.0); }"
+        },
+        "input": {
+          "name": "default-input"
+        }
+      },
+      "tree": {
+        "type": "Filter",
+        "id": "default",
+        "input": [{
+          "type": "Input",
+          "id": "input"
+        }]
+      },
+      "tags": ["shader"]
+    }
+  },
+  {
+    "id": "ccccc",
+    "detail": {
+      "title": "One",
+      "shaders": {
+        "default": {
+          "name": "default",
+          "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }"
+        },
+        "input": {
+          "name": "default-input"
+        }
+      },
+      "tree": {
+        "type": "Filter",
+        "id": "default",
+        "input": [{
+          "type": "Input",
+          "id": "input"
+        }]
+      },
+      "tags": ["shader"]
     }
   }
 ]

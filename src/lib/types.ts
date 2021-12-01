@@ -1,5 +1,3 @@
-import { CollectionReference } from "firebase/firestore";
-
 export interface User {
   id: string;
   displayName: string | null | undefined;
@@ -17,7 +15,7 @@ export interface UniformVariable {
 export interface ShaderDetail {
   name: string;
   shader?: string;
-  uniforms: UniformVariable[];
+  uniforms?: UniformVariable[];
 }
 
 export interface ShaderNode {
@@ -26,8 +24,10 @@ export interface ShaderNode {
   input?: ShaderNode[];
 }
 
+// TODO any
+
 export interface WorkDetail {
-  userRef?: CollectionReference;
+  userRef?: any;
   title: string;
   shaders: {[key: string]: ShaderDetail};
   tree: ShaderNode;

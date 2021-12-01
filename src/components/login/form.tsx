@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import firebase from 'firebase/app';
 import { auth } from '../../lib/firebase';
-import { createUser, getUser } from '../../lib/firestore';
+import { createUser, getUser } from '../../lib/firestoreAdmin';
 import { Alert } from '../ui/alert';
 
 const GoogleLogin = () => {
   const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
   const loginProcess = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
       .then((result) => {
         const { user } = result;
+
+        if (!user) return;
 
         setLoggedIn(true);
         getUser(user.uid).then((serverUser) => {
