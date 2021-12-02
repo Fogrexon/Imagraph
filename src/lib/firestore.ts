@@ -31,7 +31,7 @@ export const initializeWorkCollection = async (userid: string) => {
 }
 
 
-const getWorkList = async (maxWorkCount?: number) => {
+export const getWorkList = async (maxWorkCount?: number) => {
   if (!workCollection) {
     console.warn('firestore workcollection is not initialized.');
     return;
@@ -41,7 +41,7 @@ const getWorkList = async (maxWorkCount?: number) => {
   return snapshotToList(workData);
 };
 
-const getWork = (id: string) => {
+export const getWork = (id: string) => {
   if (!workCollection) {
     console.warn('firestore workcollection is not initialized.');
     return;
@@ -49,7 +49,7 @@ const getWork = (id: string) => {
   return getDoc(doc(workCollection, id));
 }
 
-const updateWork = (id: string, workDetail: WorkDetail) => {
+export const updateWork = (id: string, workDetail: WorkDetail) => {
   if (!workCollection) {
     console.warn('firestore workcollection is not initialized.');
     return;
@@ -57,7 +57,7 @@ const updateWork = (id: string, workDetail: WorkDetail) => {
   return setDoc(doc(workCollection, id), workDetail);
 }
 
-const addWork = (workDetail: WorkDetail) => {
+export const addWork = (workDetail: WorkDetail) => {
   if (!workCollection) {
     console.warn('firestore workcollection is not initialized.');
     return;
@@ -65,18 +65,12 @@ const addWork = (workDetail: WorkDetail) => {
   addDoc(workCollection, workDetail);
 }
 
-const getUser = async (): Promise<User | null> => userdoc?.data() as User;
+export const getUser = async (): Promise<User | null> => userdoc?.data() as User;
 
-const existUser = (userid: string) => getDoc(doc(userCollection, userid));
+export const existUser = (userid: string) => getDoc(doc(userCollection, userid));
 
-const createUser = async (userid: string, name: string, photoURL: string) => {
-  if (await existUser(userid)) return;
-  setDoc(doc(userCollection, userid), {
+export const createUser = (userid: string, name: string, photoURL: string) => setDoc(doc(userCollection, userid), {
     id: userid,
     displayName: name,
     photoURL,
   });
-}
-
-
-export { getWorkList, getWork, updateWork, addWork, createUser, getUser };

@@ -18,7 +18,7 @@ export const ProfileCard = () => {
             <Actor size="large" src={user?.photoURL as string} />
           </ListItem>
           <ListItem>{user?.displayName}</ListItem>
-          <ListItem small>{user?.email}</ListItem>
+          <ListItem small>{user?.id}</ListItem>
         </ul>
       </section>
       <section className="w-full text-center p-2 my-4">

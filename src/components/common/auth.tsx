@@ -1,11 +1,7 @@
-import React, { useState, createContext, useContext, useEffect, ReactNode } from 'react';
-import nookies from 'nookies';
-import { auth } from '../../lib/firebase';
-import { getAuth, onAuthStateChanged, signInWithRedirect, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import React, { useState, createContext, useContext, ReactNode } from 'react';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
 import { User } from '../../lib/types';
-import { getUser } from '../../lib/firestore';
 
 interface AuthContextProps {
   user: User | null;
@@ -38,7 +34,7 @@ const AuthAlert = ({
 };
 
 export const AuthPage = ({ children }: { children: ReactNode }) => {
-  const user = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="relative">

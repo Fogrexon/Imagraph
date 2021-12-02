@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
-import firebase from 'firebase/app';
+import React, { useContext, useState } from 'react';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { setCookie } from 'nookie';
 import { auth } from '../../lib/firebase';
-import { createUser, getUser } from '../../lib/firestoreAdmin';
+import { createUser } from '../../lib/firestoreAdmin';
 import { Alert } from '../ui/alert';
+import { AuthContext } from '../common/auth';
+import { existUser } from '../../lib/firestore';
 
 const GoogleLogin = () => {
+  const { dispatcher } = useContext(AuthContext);
   const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
   const loginProcess = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider)
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
       .then((result) => {
         const { user } = result;
 
         if (!user) return;
 
         setLoggedIn(true);
-        getUser(user.uid).then((serverUser) => {
-          if (!serverUser) {
+        existUser(user.uid).then(async (serverUser) => {
+          console.log(serverUser);
+
+          if (!serverUser.exists) {
             createUser(user.uid, user.displayName as string, user.photoURL as string);
           }
+
+          setCookie();
         });
       })
       .catch((error) => {
