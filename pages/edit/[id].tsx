@@ -1,10 +1,10 @@
 import { NextPageContext } from 'next';
+import nookies from 'nookies';
 import { Navbar } from '../../src/components/ui/header';
 import { Editor } from '../../src/components/editor/editor';
 import { AuthPage } from '../../src/components/common/auth';
-import works from '../../src/components/gallery/temp.json';
 import { WorkInfo } from '../../src/lib/types';
-import { getWorkList } from '../../src/lib/firestoreAdmin';
+import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
 
 const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
   setTimeout(() => {
@@ -21,12 +21,43 @@ const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
   );
 };
 
-Edit.getServerSideProps = async (ctx: NextPageContext) => {
-  const shaderID = ctx.query.id;
-  if (shaderID === 'new') return {};
-  const data = await getWorkList()
-  // eslint-disable-next-line consistent-return
-  return { shaderData: (works as WorkInfo[]).find((work) => work.id === shaderID) as WorkInfo };
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  const cookies = nookies.get(ctx);
+  const session = cookies.session || "";
+
+  const user = await firebaseAdmin
+    .auth()
+    .verifySessionCookie(session, true)
+    .catch(() => null);
+  
+  console.log(session);
+  
+  if (!user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      user: {
+        id: await user.getIdToken(),
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+      }
+    }
+  }
+  
+  // shaders
+  
+  // const shaderID = ctx.query.id;
+  // if (shaderID === 'new') return {};
+  // const data = await getWorkList()
+  // // eslint-disable-next-line consistent-return
+  // return { shaderData: (works as WorkInfo[]).find((work) => work.id === shaderID) as WorkInfo };
 };
 
 export default Edit;

@@ -1,11 +1,11 @@
-import React, { useState, createContext, useContext, ReactNode } from 'react';
+import React, { useState, createContext, useContext, ReactNode, useEffect } from 'react';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
 import { User } from '../../lib/types';
+import { onAuthStateChanged } from '../../lib/auth';
 
 interface AuthContextProps {
   user: User | null;
-  // eslint-disable-next-line no-unused-vars
   dispatcher?: (user: User | null) => void;
 }
 export const AuthContext = createContext<AuthContextProps>({user: null});
@@ -61,9 +61,13 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
   const [user, setUser] = useState<User | null>(null);
 
-  const dispatcher = (newuser: User | null) => setUser(newuser);
+  useEffect(() => {
+    onAuthStateChanged((newUser) => {
+      setUser(newUser);
+    });
+  }, [])
 
   return (
-    <AuthContext.Provider value={{user, dispatcher}}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{user}}>{children}</AuthContext.Provider>
   );
 };

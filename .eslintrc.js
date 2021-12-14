@@ -54,6 +54,8 @@ module.exports = {
     "react/require-default-props": "off",
     "@next/next/no-img-element": "off",
     "react-hooks/exhaustive-deps": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
   }
 }

@@ -1,8 +1,8 @@
-import { addDoc, collection, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, limit, query, setDoc } from 'firebase/firestore';
-import { firestore } from './firebase';
+import { addDoc, collection, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, getFirestore, limit, query, setDoc } from 'firebase/firestore';
+import { firebaseApp } from './firebase';
 import { User, WorkDetail, WorkInfo } from './types';
 
-const userCollection = collection(firestore, 'user');
+const userCollection = collection(getFirestore(firebaseApp), 'user');
 let workCollection: typeof userCollection | null = null;
 let userdoc: DocumentSnapshot<DocumentData> | null = null;
 
@@ -26,7 +26,7 @@ const snapshotToList = (list: any) => {
 };
 
 export const initializeWorkCollection = async (userid: string) => {
-  workCollection = collection(firestore, 'user', userid, 'work');
+  workCollection = collection(getFirestore(firebaseApp), 'user', userid, 'work');
   userdoc = await getDoc(doc(userCollection, userid));
 }
 

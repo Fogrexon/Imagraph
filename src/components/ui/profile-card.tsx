@@ -1,5 +1,6 @@
+import { getAuth } from 'firebase/auth';
 import React, { ReactNode, useContext } from 'react';
-import { auth } from '../../lib/firebase';
+import { firebaseApp } from '../../lib/firebase';
 import { AuthContext } from '../common/auth';
 import { Actor } from './actor';
 import { Button } from './button';
@@ -22,7 +23,7 @@ export const ProfileCard = () => {
         </ul>
       </section>
       <section className="w-full text-center p-2 my-4">
-        <Button primary small onClick={() => auth.signOut()}>
+        <Button primary small onClick={() => getAuth(firebaseApp).signOut()}>
           Logout
         </Button>
       </section>

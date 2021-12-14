@@ -1,40 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { setCookie } from 'nookie';
-import { auth } from '../../lib/firebase';
-import { createUser } from '../../lib/firestoreAdmin';
+import React, { useState } from 'react';
 import { Alert } from '../ui/alert';
-import { AuthContext } from '../common/auth';
-import { existUser } from '../../lib/firestore';
+import { login } from '../../lib/auth';
 
 const GoogleLogin = () => {
-  const { dispatcher } = useContext(AuthContext);
   const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
   const loginProcess = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const { user } = result;
-
-        if (!user) return;
-
-        setLoggedIn(true);
-        existUser(user.uid).then(async (serverUser) => {
-          console.log(serverUser);
-
-          if (!serverUser.exists) {
-            createUser(user.uid, user.displayName as string, user.photoURL as string);
-          }
-
-          setCookie();
-        });
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        setLoggedIn(`${errorCode} : ${errorMessage}`);
-      });
+    login().then(() => {
+      setLoggedIn(true);
+    }).catch(() => {
+      setLoggedIn('ログインに失敗しました');
+    });
   };
 
   return (
