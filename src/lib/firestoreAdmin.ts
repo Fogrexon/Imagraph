@@ -4,13 +4,14 @@ import { User, WorkDetail, WorkInfo } from './types';
 const userCollection = firestore.collection('user');
 
 // works
-const snapshotToList = (list: any) => {
+const snapshotToList = (list: any, userid: string) => {
   const items: WorkInfo[] = [];
   list.forEach((item: any) => {
     const d = item.data();
     items.push({
       id: item.id,
       detail: {
+        userid,
         title: d.title,
         shaders: d.shaders,
         tree: d.tree,
@@ -27,7 +28,7 @@ export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
     ? getWorkCollection(userid).limit(maxWorkCount).get()
     : getWorkCollection(userid).get());
-  return snapshotToList(workDatabase);
+  return snapshotToList(workDatabase, userid);
 };
 
 export const updateWork = (userid: string, id: string, workDetail: WorkDetail) =>
