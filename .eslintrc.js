@@ -53,6 +53,9 @@ module.exports = {
     "import/no-unresolved": [2, { "commonjs": true, "amd": true }],
     "react/require-default-props": "off",
     "@next/next/no-img-element": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "consistent-return": "off",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"]
   }
 }

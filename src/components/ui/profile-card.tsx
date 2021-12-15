@@ -1,5 +1,7 @@
+import { getAuth } from 'firebase/auth';
 import React, { ReactNode, useContext } from 'react';
-import { auth } from '../../lib/firebase';
+import { logout } from '../../lib/auth';
+import { firebaseApp } from '../../lib/firebase';
 import { AuthContext } from '../common/auth';
 import { Actor } from './actor';
 import { Button } from './button';
@@ -10,6 +12,10 @@ const ListItem = ({ children, small = false }: { children: ReactNode; small?: bo
 
 export const ProfileCard = () => {
   const { user } = useContext(AuthContext);
+  const sessionLogout = () => {
+    logout();
+    getAuth(firebaseApp).signOut();
+  };
   return (
     <div className="absolute top-20 right-4 w-max-full w-80 shadow bg-white rounded-md">
       <section className="w-full p-2 my-4 border-b-2">
@@ -18,11 +24,11 @@ export const ProfileCard = () => {
             <Actor size="large" src={user?.photoURL as string} />
           </ListItem>
           <ListItem>{user?.displayName}</ListItem>
-          <ListItem small>{user?.email}</ListItem>
+          <ListItem small>{user?.id}</ListItem>
         </ul>
       </section>
       <section className="w-full text-center p-2 my-4">
-        <Button primary small onClick={() => auth.signOut()}>
+        <Button primary small onClick={sessionLogout}>
           Logout
         </Button>
       </section>

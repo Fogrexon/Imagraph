@@ -1,29 +1,16 @@
 import React, { useState } from 'react';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../../lib/firebase';
-import { createUser, hasUser } from '../../lib/firestore';
 import { Alert } from '../ui/alert';
+import { login } from '../../lib/auth';
 
 const GoogleLogin = () => {
   const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
   const loginProcess = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const { user } = result;
-
+    login()
+      .then(() => {
         setLoggedIn(true);
-        hasUser(user.uid).then((flag) => {
-          if (!flag) {
-            createUser(user.uid, user.displayName as string);
-          }
-        });
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        setLoggedIn(`${errorCode} : ${errorMessage}`);
+      .catch(() => {
+        setLoggedIn('ログインに失敗しました');
       });
   };
 

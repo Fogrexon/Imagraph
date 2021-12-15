@@ -1,30 +1,50 @@
 import { NextPageContext } from 'next';
+import nookies from 'nookies';
 import { Navbar } from '../../src/components/ui/header';
 import { Editor } from '../../src/components/editor/editor';
 import { AuthPage } from '../../src/components/common/auth';
-import works from '../../src/components/gallery/temp.json';
 import { WorkInfo } from '../../src/lib/types';
+import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
+import { getWorkList } from '../../src/lib/firestoreAdmin';
 
-const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
-  setTimeout(() => {
-    // if (id === 'new') return;
-    // setShader((works as WorkInfo[]).find((work) => work.id === id) as WorkInfo);
-  }, 100);
-  return (
-    <AuthPage>
-      <div className="w-screen md:h-screen flex flex-col">
-        <Navbar className="flex-grow-1" />
-        <Editor className="flex-grow" shader={shaderData} />
-      </div>
-    </AuthPage>
-  );
-};
+const Edit = ({ shaderData }: { shaderData: WorkInfo | '' }) => (
+  <AuthPage>
+    <div className="w-screen md:h-screen flex flex-col">
+      <Navbar className="flex-grow-1" />
+      <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
+    </div>
+  </AuthPage>
+);
 
-Edit.getInitialProps = async (ctx: NextPageContext) => {
+export const getServerSideProps = async (ctx: NextPageContext) => {
+  const cookies = nookies.get(ctx);
+  const session = cookies.session || '';
+
+  const user = await firebaseAdmin
+    .auth()
+    .verifySessionCookie(session, true)
+    .catch(() => null);
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
   const shaderID = ctx.query.id;
-  if (shaderID === 'new') return {};
+  if (shaderID === 'new') return { props: {} };
+  const data = ((await getWorkList(user.uid)) as WorkInfo[]).find((work) => work.id === shaderID);
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
   // eslint-disable-next-line consistent-return
-  return { shaderData: (works as WorkInfo[]).find((work) => work.id === shaderID) as WorkInfo };
+  return { props: { shaderData: data as WorkInfo } };
 };
 
 export default Edit;

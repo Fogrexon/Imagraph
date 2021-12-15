@@ -39,7 +39,7 @@ const NavbarLeft = () => (
 );
 
 const NavbarRight = () => {
-  const { loggedIn, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const modalParentRef = createRef<HTMLDivElement>();
   const openButton = () => {
@@ -59,7 +59,7 @@ const NavbarRight = () => {
   }, []);
   return (
     <div ref={modalParentRef} className="h-12 flex items-center">
-      {loggedIn ? (
+      {user ? (
         <>
           <Button onClick={() => openButton()} small>
             <Actor src={user?.photoURL} />

@@ -1,65 +1,74 @@
 [
   {
-    "id": "aaaaa",
+    "id": "id",
     "detail": {
       "title": "One",
-      "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv); }",
-      "tags": ["shader"],
-      "userid": "aaaaaa"
+      "shaders": {
+        "default": {
+          "name": "default",
+          "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv); }"
+        },
+        "input": {
+          "name": "default-input"
+        }
+      },
+      "tree": {
+        "type": "Filter",
+        "id": "default",
+        "input": [{
+          "type": "Input",
+          "id": "input"
+        }]
+      },
+      "tags": ["shader"]
     }
   },
   {
     "id": "bbbbb",
     "detail": {
-      "title": "Two",
-      "shader": "void main() { gl_FragColor = vec4(vec3(1.0) - texture2D(renderTexture, vUv).rgb, 1.0); }",
-      "tags": ["shader2"],
-      "userid": "bbbbbb"
-    }
-  },
-  {
-    "id": "ccccc",
-    "detail": {
-      "title": "Three",
-      "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }",
-      "tags": ["shader3"],
-      "userid": "cccccc"
-    }
-  },
-  {
-    "id": "cccdcc",
-    "detail": {
-      "title": "Three",
-      "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }",
-      "tags": ["shader3"],
-      "userid": "cccccc"
-    }
-  },
-  {
-    "id": "ccccddc",
-    "detail": {
-      "title": "Three",
-      "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }",
-      "tags": ["shader3"],
-      "userid": "cccccc"
-    }
-  },
-  {
-    "id": "cccdddcc",
-    "detail": {
-      "title": "Three",
-      "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }",
-      "tags": ["shader3"],
-      "userid": "cccccc"
+      "title": "One",
+      "shaders": {
+        "default": {
+          "name": "default",
+          "shader": "void main() { gl_FragColor = vec4(vec3(1.0) - texture2D(renderTexture, vUv).rgb, 1.0); }"
+        },
+        "input": {
+          "name": "default-input"
+        }
+      },
+      "tree": {
+        "type": "Filter",
+        "id": "default",
+        "input": [{
+          "type": "Input",
+          "id": "input"
+        }]
+      },
+      "tags": ["shader"]
     }
   },
   {
     "id": "ccddddccc",
     "detail": {
-      "title": "Three",
-      "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }",
-      "tags": ["shader3"],
-      "userid": "cccccc"
+      "title": "One",
+      "shaders": {
+        "default": {
+          "name": "default",
+          "shader": "void main() { gl_FragColor = texture2D(renderTexture, vUv + vec2(sin(time), cos(time)) * 0.05); }"
+        },
+        "input": {
+          "name": "default-input"
+        }
+      },
+      "tree": {
+        "type": "Filter",
+        "id": "default",
+        "input": [{
+          "type": "Input",
+          "id": "input"
+        }]
+      },
+      "tags": ["shader"]
     }
   }
 ]

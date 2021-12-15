@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 import { Ace } from 'ace-builds';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { WorkInfo } from '../../lib/types';
 import { AceEditor } from './ace';
 import { ControlBar } from './control-bar';
@@ -16,22 +16,23 @@ void main() {
 export const Editor = ({
   className = '',
   shader,
+  shaderID,
 }: {
   className?: string;
-  shader?: WorkInfo | undefined | null;
+  shader?: WorkInfo;
+  shaderID?: string;
 }) => {
-  const [glsl, setGLSL] = useState(defaultGLSL);
-  const [playingGLSL, setPlayingGLSL] = useState(defaultGLSL);
-  const [name, setName] = useState('Title');
-  const [tag, setTag] = useState(['tags']);
+  const [glsl, setGLSL] = useState(
+    shader && shaderID ? (shader.detail.shaders[shaderID].shader as string) : defaultGLSL
+  );
+  const [playingGLSL, setPlayingGLSL] = useState(glsl);
+  const [name, setName] = useState(shader && shaderID ? shader.detail.title : 'Title');
+  const [tag, setTag] = useState(shader && shaderID ? shader.detail.tags : ['tags']);
   const [errors, setErrors] = useState<Ace.Annotation[]>([]);
 
-  useEffect(() => {
-    setGLSL(shader ? shader.detail.shader : defaultGLSL);
-    setName(shader ? shader.detail.title : 'Title');
-    setTag(shader ? shader.detail.tags : ['tags']);
-    setPlayingGLSL(shader ? shader.detail.shader : defaultGLSL);
-  }, [shader]);
+  const saveShader = () => {
+    if (errors.length !== 0) window?.alert('cannot save. Resolve all errors');
+  };
 
   return (
     <main className={`${className} flex flex-col w-full`}>
@@ -43,7 +44,7 @@ export const Editor = ({
             playShader={() => {
               setPlayingGLSL(glsl);
             }}
-            saveShader={() => 'a'}
+            saveShader={saveShader}
             name={name}
             updateName={setName}
             tags={tag}

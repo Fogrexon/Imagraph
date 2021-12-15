@@ -1,33 +1,16 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { auth as firebaseAuth } from '../../lib/firebase';
-import { Loading } from '../ui/loading';
+import React, { useState, createContext, useContext, ReactNode, useEffect } from 'react';
 import { Alert } from '../ui/alert';
 import { ButtonLink } from '../ui/button';
 import { User } from '../../lib/types';
+import { onAuthStateChanged } from '../../lib/auth';
 
-interface AuthInfo {
-  loggedIn: boolean;
-  checked: boolean;
+interface AuthContextProps {
   user: User | null;
+  dispatcher?: (user: User | null) => void;
 }
+export const AuthContext = createContext<AuthContextProps>({ user: null });
 
-export const AuthContext = createContext<AuthInfo>({
-  loggedIn: false,
-  checked: false,
-  user: null,
-});
-
-const AuthAlert = ({
-  loading = true,
-  loggedIn = false,
-}: {
-  loading?: boolean;
-  loggedIn?: boolean;
-}) => {
-  if (loading) {
-    return <Loading />;
-  }
+const AuthAlert = ({ loggedIn = false }: { loggedIn?: boolean }) => {
   if (loggedIn) return <></>;
   return (
     <div>
@@ -46,57 +29,38 @@ const AuthAlert = ({
   );
 };
 
-export const AuthPage = ({ children }: { children: any }) => {
-  const { loggedIn, checked } = useContext(AuthContext);
+export const AuthPage = ({ children }: { children: ReactNode }) => {
+  const { user } = useContext(AuthContext);
 
   return (
     <div className="relative">
       <div
-        className={`relative w-full m-0 p-0${checked && loggedIn ? '' : ' blur-md'}`}
+        className={`relative w-full m-0 p-0${user ? '' : ' blur-md'}`}
         style={{
-          filter: checked && loggedIn ? 'none' : 'blur(12px)',
+          filter: user ? 'none' : 'blur(12px)',
         }}
       >
         {children}
       </div>
       <div
         className={`fixed top-0 left-0 w-screen h-screen flex items-center justify-center${
-          checked && loggedIn ? ' hidden' : ''
+          user ? ' hidden' : ''
         }`}
       >
-        <AuthAlert loading={!checked} loggedIn={loggedIn} />
+        <AuthAlert loggedIn={!!user} />
       </div>
     </div>
   );
 };
 
 export const AuthProvider = ({ children }: { children: any }) => {
-  const [cookie, setCookie] = useCookies(['authToken']);
-
-  const [loggedIn, setLoginStatus] = useState(!!cookie);
-  const [checked, setChecked] = useState(!!cookie);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const unsubscribe = firebaseAuth.onAuthStateChanged(async (userData: User | null) => {
-      setChecked(true);
-      setLoginStatus(!!userData);
-      setUser(userData);
-      setCookie('authToken', await userData?.getIdToken());
+    onAuthStateChanged((newUser) => {
+      setUser(newUser);
     });
-
-    return () => unsubscribe();
   }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        loggedIn,
-        checked,
-        user,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };

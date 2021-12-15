@@ -8,12 +8,13 @@ import {
   limit,
   where,
   getDoc,
+  getFirestore,
 } from 'firebase/firestore';
-import { firestore } from './firebase';
+import { firebaseApp } from './firebase';
 import { WorkDetail, WorkInfo } from './types';
 
-const userCollection = collection(firestore, 'user');
-const workCollection = collection(firestore, 'gallery');
+const userCollection = collection(getFirestore(firebaseApp), 'user');
+const workCollection = collection(getFirestore(firebaseApp), 'gallery');
 // const latestWork = orderBy('updatedAt', 'desc');
 
 // const initializer = (userid: string) => {
@@ -29,8 +30,9 @@ const snapshotToList = (list: any, userid: string) => {
       id: item.id,
       detail: {
         title: d.title,
-        shader: d.shader,
-        tags: [],
+        shaders: d.shaders,
+        tags: d.tags,
+        tree: d.tree,
         userid,
       },
     });
