@@ -8,13 +8,9 @@ interface AuthContextProps {
   user: User | null;
   dispatcher?: (user: User | null) => void;
 }
-export const AuthContext = createContext<AuthContextProps>({user: null});
+export const AuthContext = createContext<AuthContextProps>({ user: null });
 
-const AuthAlert = ({
-  loggedIn = false,
-}: {
-  loggedIn?: boolean;
-}) => {
+const AuthAlert = ({ loggedIn = false }: { loggedIn?: boolean }) => {
   if (loggedIn) return <></>;
   return (
     <div>
@@ -58,16 +54,13 @@ export const AuthPage = ({ children }: { children: ReactNode }) => {
 };
 
 export const AuthProvider = ({ children }: { children: any }) => {
-
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     onAuthStateChanged((newUser) => {
       setUser(newUser);
     });
-  }, [])
+  }, []);
 
-  return (
-    <AuthContext.Provider value={{user}}>{children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };

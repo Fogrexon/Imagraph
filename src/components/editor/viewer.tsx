@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 import { Ace } from 'ace-builds';
 import { DefaultInput, Filter, Renderer } from 'graphim';
-import React, { createRef, MutableRefObject, useEffect, useRef, useState } from 'react';
+import React, { createRef, MutableRefObject, useEffect, useRef } from 'react';
 import { Alert } from '../ui/alert';
 import hatoImg from '../ui/hato.jpg';
 
@@ -22,7 +22,7 @@ const initialize =
     try {
       filterRef.current = new Filter(glslRef.current as string);
       defaultInputRef.current = new DefaultInput();
-      filterRef.current.connect(defaultInputRef.current)
+      filterRef.current.connect(defaultInputRef.current);
       updateErrors([]);
     } catch (e) {
       const errorMes: Ace.Annotation[] = `${e}`
@@ -80,7 +80,6 @@ export const Viewer = ({
   const glslRef = useRef<string>(glsl);
 
   const createFilter = () => {
-
     if (imgRef.current?.complete) {
       initialize(
         filterRef,

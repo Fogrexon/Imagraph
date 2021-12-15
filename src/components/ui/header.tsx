@@ -59,7 +59,7 @@ const NavbarRight = () => {
   }, []);
   return (
     <div ref={modalParentRef} className="h-12 flex items-center">
-      { user ? (
+      {user ? (
         <>
           <Button onClick={() => openButton()} small>
             <Actor src={user?.photoURL} />

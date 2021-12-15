@@ -8,43 +8,43 @@ import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
 import { getWorkList } from '../../src/lib/firestoreAdmin';
 
 const Edit = ({ shaderData }: { shaderData: WorkInfo | '' }) => (
-    <AuthPage>
-      <div className="w-screen md:h-screen flex flex-col">
-        <Navbar className="flex-grow-1" />
-        <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
-      </div>
-    </AuthPage>
-  );
+  <AuthPage>
+    <div className="w-screen md:h-screen flex flex-col">
+      <Navbar className="flex-grow-1" />
+      <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
+    </div>
+  </AuthPage>
+);
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const cookies = nookies.get(ctx);
-  const session = cookies.session || "";
+  const session = cookies.session || '';
 
   const user = await firebaseAdmin
     .auth()
     .verifySessionCookie(session, true)
     .catch(() => null);
-  
+
   if (!user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: '/login',
         permanent: false,
       },
     };
   }
-  
+
   const shaderID = ctx.query.id;
   if (shaderID === 'new') return { props: {} };
-  const data = (await getWorkList(user.uid) as WorkInfo[]).find((work) => work.id === shaderID)
+  const data = ((await getWorkList(user.uid)) as WorkInfo[]).find((work) => work.id === shaderID);
 
   if (!data) {
     return {
       notFound: true,
-    }
+    };
   }
   // eslint-disable-next-line consistent-return
-  return { props: {shaderData: data as WorkInfo} };
+  return { props: { shaderData: data as WorkInfo } };
 };
 
 export default Edit;

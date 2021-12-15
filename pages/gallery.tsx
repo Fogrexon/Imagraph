@@ -3,31 +3,31 @@ import { NextPageContext } from 'next';
 import { AuthPage } from '../src/components/common/auth';
 import { CardList } from '../src/components/gallery/cardlist';
 import { Navbar } from '../src/components/ui/header';
-import {WorkInfo} from '../src/lib/types'
+import { WorkInfo } from '../src/lib/types';
 import { firebaseAdmin } from '../src/lib/firebaseAdmin';
 import { getWorkList } from '../src/lib/firestoreAdmin';
 
-const Gallery = ({ items }: { items: WorkInfo[]}) => (
+const Gallery = ({ items }: { items: WorkInfo[] }) => (
   <AuthPage>
     <Navbar />
-    <CardList items={items as WorkInfo[]}/>
+    <CardList items={items as WorkInfo[]} />
   </AuthPage>
 );
 export default Gallery;
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const cookies = nookies.get(ctx);
-  const session = cookies.session || "";
+  const session = cookies.session || '';
 
   const user = await firebaseAdmin
     .auth()
     .verifySessionCookie(session, true)
     .catch(() => null);
-  
+
   if (!user) {
     return {
       redirect: {
-        destination: "/login",
+        destination: '/login',
         permanent: false,
       },
     };
@@ -37,5 +37,5 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
 
   return {
     props: { items },
-  }
-}
+  };
+};

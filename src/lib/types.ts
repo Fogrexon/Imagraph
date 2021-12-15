@@ -9,7 +9,7 @@ export type UniformType = 'Float' | 'Matrix4' | 'Vector2' | 'Vector3' | 'Vector4
 export type NodeType = 'Input' | 'Filter' | 'BlendFilter';
 export interface UniformVariable {
   name: string;
-  type: UniformType
+  type: UniformType;
 }
 
 export interface ShaderDetail {
@@ -29,7 +29,7 @@ export interface ShaderNode {
 export interface WorkDetail {
   userRef?: any;
   title: string;
-  shaders: {[key: string]: ShaderDetail};
+  shaders: { [key: string]: ShaderDetail };
   tree: ShaderNode;
   tags: string[];
 }

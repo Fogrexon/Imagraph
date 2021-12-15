@@ -20,9 +20,11 @@ export const Editor = ({
 }: {
   className?: string;
   shader?: WorkInfo;
-  shaderID?: string
+  shaderID?: string;
 }) => {
-  const [glsl, setGLSL] = useState(shader && shaderID ? shader.detail.shaders[shaderID].shader as string : defaultGLSL);
+  const [glsl, setGLSL] = useState(
+    shader && shaderID ? (shader.detail.shaders[shaderID].shader as string) : defaultGLSL
+  );
   const [playingGLSL, setPlayingGLSL] = useState(glsl);
   const [name, setName] = useState(shader && shaderID ? shader.detail.title : 'Title');
   const [tag, setTag] = useState(shader && shaderID ? shader.detail.tags : ['tags']);
@@ -30,9 +32,7 @@ export const Editor = ({
 
   const saveShader = () => {
     if (errors.length !== 0) window?.alert('cannot save. Resolve all errors');
-    
-    
-  }
+  };
 
   return (
     <main className={`${className} flex flex-col w-full`}>

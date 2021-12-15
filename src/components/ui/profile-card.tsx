@@ -15,7 +15,7 @@ export const ProfileCard = () => {
   const sessionLogout = () => {
     logout();
     getAuth(firebaseApp).signOut();
-  }
+  };
   return (
     <div className="absolute top-20 right-4 w-max-full w-80 shadow bg-white rounded-md">
       <section className="w-full p-2 my-4 border-b-2">

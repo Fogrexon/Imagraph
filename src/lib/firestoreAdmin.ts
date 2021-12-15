@@ -30,9 +30,11 @@ export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   return snapshotToList(workDatabase);
 };
 
-export const updateWork = (userid: string, id: string, workDetail: WorkDetail) => getWorkCollection(userid).doc(id).set(workDetail)
+export const updateWork = (userid: string, id: string, workDetail: WorkDetail) =>
+  getWorkCollection(userid).doc(id).set(workDetail);
 
-export const addWork = (userid: string, workDetail: WorkDetail) => getWorkCollection(userid).add(workDetail);
+export const addWork = (userid: string, workDetail: WorkDetail) =>
+  getWorkCollection(userid).add(workDetail);
 
 export const getUser = async (userid: string): Promise<User | null> => {
   const userSnap = await userCollection.doc(userid).get();
@@ -47,4 +49,4 @@ export const createUser = async (userid: string, name: string, photoURL: string)
     displayName: name,
     photoURL,
   });
-}
+};

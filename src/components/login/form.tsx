@@ -5,11 +5,13 @@ import { login } from '../../lib/auth';
 const GoogleLogin = () => {
   const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
   const loginProcess = () => {
-    login().then(() => {
-      setLoggedIn(true);
-    }).catch(() => {
-      setLoggedIn('ログインに失敗しました');
-    });
+    login()
+      .then(() => {
+        setLoggedIn(true);
+      })
+      .catch(() => {
+        setLoggedIn('ログインに失敗しました');
+      });
   };
 
   return (
