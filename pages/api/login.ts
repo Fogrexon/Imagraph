@@ -14,8 +14,9 @@ const loginAPI = async (req: Req, res: Res) => {
   const id = (JSON.parse(req.body).id || "").toString();
   
   // Cookieに保存するセッションIDを作成する
-  const sessionCookie = await firebaseAdmin.auth().createSessionCookie(id, { expiresIn });
-  console.log("session");
+
+  const authing = firebaseAdmin.auth();
+  const sessionCookie = await authing.createSessionCookie(id, { expiresIn });
 
   // Cookieのオプション
   const options = {
@@ -26,8 +27,6 @@ const loginAPI = async (req: Req, res: Res) => {
   };
 
   // セッションIDをCookieに設定する
-
-  console.log("session");
   setCookie({ res }, "session", sessionCookie, options);
 
   res.send(JSON.stringify({ status: "success" }));

@@ -11,7 +11,6 @@ const snapshotToList = (list: any) => {
     items.push({
       id: item.id,
       detail: {
-        userRef: d.userRef,
         title: d.title,
         shaders: d.shaders,
         tree: d.tree,
@@ -22,7 +21,7 @@ const snapshotToList = (list: any) => {
   return items;
 };
 
-export const getWorkCollection = (userid: string) => userCollection.doc(userid).collection('gallery');
+export const getWorkCollection = (userid: string) => userCollection.doc(userid).collection('work');
 
 export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount

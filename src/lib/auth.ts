@@ -11,7 +11,7 @@ export const login = async () => {
   
     const id = await result.user.getIdToken();
   
-    await fetch("/api/login", {method: "POST", body: JSON.stringify(id)});
+    await fetch("/api/login", {method: "POST", body: JSON.stringify({ id })});
     return;
 
   } catch(e) {

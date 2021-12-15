@@ -5,13 +5,9 @@ import { Editor } from '../../src/components/editor/editor';
 import { AuthPage } from '../../src/components/common/auth';
 import { WorkInfo } from '../../src/lib/types';
 import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
+import { getWorkList } from '../../src/lib/firestoreAdmin';
 
-const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
-  setTimeout(() => {
-    // if (id === 'new') return;
-    // setShader((works as WorkInfo[]).find((work) => work.id === id) as WorkInfo);
-  }, 100);
-  return (
+const Edit = ({ shaderData }: { shaderData: WorkInfo | '' }) => (
     <AuthPage>
       <div className="w-screen md:h-screen flex flex-col">
         <Navbar className="flex-grow-1" />
@@ -19,7 +15,6 @@ const Edit = ({ shaderData }: { shaderData: WorkInfo | null | undefined }) => {
       </div>
     </AuthPage>
   );
-};
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const cookies = nookies.get(ctx);
@@ -30,8 +25,6 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
     .verifySessionCookie(session, true)
     .catch(() => null);
   
-  console.log(session);
-  
   if (!user) {
     return {
       redirect: {
@@ -40,24 +33,18 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
       },
     };
   }
+  
+  const shaderID = ctx.query.id;
+  if (shaderID === 'new') return { props: {} };
+  const data = (await getWorkList(user.uid) as WorkInfo[]).find((work) => work.id === shaderID)
 
-  return {
-    props: {
-      user: {
-        id: await user.getIdToken(),
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      }
+  if (!data) {
+    return {
+      notFound: true,
     }
   }
-  
-  // shaders
-  
-  // const shaderID = ctx.query.id;
-  // if (shaderID === 'new') return {};
-  // const data = await getWorkList()
-  // // eslint-disable-next-line consistent-return
-  // return { shaderData: (works as WorkInfo[]).find((work) => work.id === shaderID) as WorkInfo };
+  // eslint-disable-next-line consistent-return
+  return { props: {shaderData: data as WorkInfo} };
 };
 
 export default Edit;
