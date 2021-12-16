@@ -1,7 +1,10 @@
 /* eslint-disable consistent-return */
 import { Ace } from 'ace-builds';
-import React, { useState } from 'react';
-import { WorkInfo } from '../../lib/types';
+import { useRouter } from 'next/dist/client/router';
+import React, { useContext, useState } from 'react';
+import { addWork, getWorkID, updateWork } from '../../lib/firestore';
+import { WorkDetail, WorkInfo } from '../../lib/types';
+import { AuthContext } from '../common/auth';
 import { AceEditor } from './ace';
 import { ControlBar } from './control-bar';
 import { Viewer } from './viewer';
@@ -22,6 +25,7 @@ export const Editor = ({
   shader?: WorkInfo;
   shaderID?: string;
 }) => {
+  const { user } = useContext(AuthContext); 
   const [glsl, setGLSL] = useState(
     shader && shaderID ? (shader.detail.shaders[shaderID].shader as string) : defaultGLSL
   );
@@ -30,8 +34,39 @@ export const Editor = ({
   const [tag, setTag] = useState(shader && shaderID ? shader.detail.tags : ['tags']);
   const [errors, setErrors] = useState<Ace.Annotation[]>([]);
 
+  const router = useRouter();
+
   const saveShader = () => {
-    if (errors.length !== 0) window?.alert('cannot save. Resolve all errors');
+    if(!user) return;
+    const newWorkDetail: WorkDetail = {
+      title: name,
+      shaders: {
+        default: {
+          name: 'default',
+          shader: playingGLSL,
+        },
+        input: {
+          name: 'default-input',
+        }
+      },
+      tree: {
+        type: "Filter",
+        id: "default",
+        input: [{
+          type: "Input",
+          id: "input"
+        }]
+      },
+      tags: tag,
+      userid: user.id
+    };
+
+    if (router.query.id !== 'new') updateWork(user.id, router.query.id as string, newWorkDetail);
+    else addWork(user.id, newWorkDetail).then(doc => getWorkID(doc)).then((docid) => {
+      router.push(`/edit/${docid}`)
+    }).catch((e) => {
+      window?.alert(e);
+    });
   };
 
   return (

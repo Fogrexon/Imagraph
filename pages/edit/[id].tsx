@@ -2,18 +2,15 @@ import { NextPageContext } from 'next';
 import nookies from 'nookies';
 import { Navbar } from '../../src/components/ui/header';
 import { Editor } from '../../src/components/editor/editor';
-import { AuthPage } from '../../src/components/common/auth';
 import { WorkInfo } from '../../src/lib/types';
 import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
 import { getWorkList } from '../../src/lib/firestoreAdmin';
 
 const Edit = ({ shaderData }: { shaderData: WorkInfo | '' }) => (
-  <AuthPage>
-    <div className="w-screen md:h-screen flex flex-col">
-      <Navbar className="flex-grow-1" />
-      <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
-    </div>
-  </AuthPage>
+  <div className="w-screen md:h-screen flex flex-col">
+    <Navbar className="flex-grow-1" />
+    <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
+  </div>
 );
 
 export const getServerSideProps = async (ctx: NextPageContext) => {

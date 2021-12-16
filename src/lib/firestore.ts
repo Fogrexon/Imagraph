@@ -6,15 +6,14 @@ import {
   doc,
   query,
   limit,
-  where,
   getDoc,
   getFirestore,
+  DocumentReference,
 } from 'firebase/firestore';
 import { firebaseApp } from './firebase';
 import { WorkDetail, WorkInfo } from './types';
 
 const userCollection = collection(getFirestore(firebaseApp), 'user');
-const workCollection = collection(getFirestore(firebaseApp), 'gallery');
 // const latestWork = orderBy('updatedAt', 'desc');
 
 // const initializer = (userid: string) => {
@@ -39,28 +38,32 @@ const snapshotToList = (list: any, userid: string) => {
   });
   return items;
 };
-const getWorkList = async (userid: string, maxWorkCount?: number) => {
+
+export const getWorkCollection = (userid: string) => collection(doc(userCollection, userid), 'work')
+
+export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
-    ? getDocs(query(workCollection, where('userid', '==', userid), limit(maxWorkCount)))
-    : getDocs(query(workCollection, where('userid', '==', userid))));
+    ? getDocs(query(getWorkCollection(userid), limit(maxWorkCount)))
+    : getDocs(getWorkCollection(userid)));
   return snapshotToList(workDatabase, userid);
 };
 
-const updateWork = (id: string, workDetail: WorkDetail) =>
-  setDoc(doc(workCollection, id), workDetail);
+export const updateWork = (userid: string, id: string, workDetail: WorkDetail) =>
+  setDoc(doc(getWorkCollection(userid), id), workDetail);
 
-const addWork = (workDetail: WorkDetail) => addDoc(workCollection, workDetail);
+export const addWork = (userid: string, workDetail: WorkDetail) => addDoc(getWorkCollection(userid), workDetail);
 
-const createUser = async (userid: string, name: string) =>
+export const getWorkID = async (docRef: DocumentReference) => (await getDoc(docRef)).id;
+
+export const createUser = async (userid: string, name: string) =>
   // eslint-disable-next-line no-return-await
   await setDoc(doc(userCollection, userid), {
     userid,
     name,
   });
 
-const hasUser = async (userid: string) => {
+export const hasUser = async (userid: string) => {
   const userSnap = await getDoc(doc(userCollection, userid));
   return userSnap.exists();
 };
 
-export { getWorkList, updateWork, addWork, createUser, hasUser };

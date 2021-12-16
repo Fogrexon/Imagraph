@@ -26,11 +26,11 @@ const CenterContent = () => (
         </span>
       </ButtonLink>
     </div>
-    <ButtonLink href="/">
+    {/* <ButtonLink href="/">
       <span>
         Get Started <BiRightArrowAlt className="inline" />
       </span>
-    </ButtonLink>
+    </ButtonLink> */}
   </div>
 );
 

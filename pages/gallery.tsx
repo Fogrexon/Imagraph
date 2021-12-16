@@ -1,6 +1,5 @@
 import nookies from 'nookies';
 import { NextPageContext } from 'next';
-import { AuthPage } from '../src/components/common/auth';
 import { CardList } from '../src/components/gallery/cardlist';
 import { Navbar } from '../src/components/ui/header';
 import { WorkInfo } from '../src/lib/types';
@@ -8,10 +7,10 @@ import { firebaseAdmin } from '../src/lib/firebaseAdmin';
 import { getWorkList } from '../src/lib/firestoreAdmin';
 
 const Gallery = ({ items }: { items: WorkInfo[] }) => (
-  <AuthPage>
+  <>
     <Navbar />
     <CardList items={items as WorkInfo[]} />
-  </AuthPage>
+  </>
 );
 export default Gallery;
 

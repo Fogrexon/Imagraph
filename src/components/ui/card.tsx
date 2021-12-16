@@ -35,7 +35,7 @@ export const Card = ({ item }: { item: WorkInfo }) => {
     };
   });
   return (
-    <div className="relative w-40 md:w-64 h-32 shadow mx-2 my-2 rounded-md overflow-hidden">
+    <div className="relative w-40 sm:w-64 h-32 shadow mx-2 my-2 rounded-md overflow-hidden">
       <img
         ref={imgRef}
         className="w-full h-full absolute top-0 left-0"
