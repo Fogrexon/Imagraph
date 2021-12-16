@@ -16,7 +16,7 @@ export const login = async () => {
 
     const id = await result.user.getIdToken();
 
-    await fetch('/api/login', { method: 'POST', body: JSON.stringify({ id }) });
+    await fetch('/api/login', { method: 'POST', body: JSON.stringify({ token: id, id: result.user.uid, displayName: result.user.displayName, photoURL: result.user.photoURL }) });
     return;
   } catch (e) {
     return e;

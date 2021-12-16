@@ -11,7 +11,7 @@ import {
   DocumentReference,
 } from 'firebase/firestore';
 import { firebaseApp } from './firebase';
-import { WorkDetail, WorkInfo } from './types';
+import { User, WorkDetail, WorkInfo } from './types';
 
 const userCollection = collection(getFirestore(firebaseApp), 'user');
 // const latestWork = orderBy('updatedAt', 'desc');
@@ -55,15 +55,17 @@ export const addWork = (userid: string, workDetail: WorkDetail) => addDoc(getWor
 
 export const getWorkID = async (docRef: DocumentReference) => (await getDoc(docRef)).id;
 
-export const createUser = async (userid: string, name: string) =>
-  // eslint-disable-next-line no-return-await
-  await setDoc(doc(userCollection, userid), {
-    userid,
-    name,
+export const setUser = (userid: string, user: User) =>
+  setDoc(doc(userCollection, userid), {
+    id: user.id,
+    displayName: user.displayName,
+    photoURL: user.photoURL,
   });
 
 export const hasUser = async (userid: string) => {
   const userSnap = await getDoc(doc(userCollection, userid));
   return userSnap.exists();
 };
+
+export const getUser = async (userid: string): Promise<User | undefined> => (await getDoc(doc(userCollection, userid))).data() as User;
 
