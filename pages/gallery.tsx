@@ -5,9 +5,18 @@ import { Navbar } from '../src/components/ui/header';
 import { WorkInfo } from '../src/lib/types';
 import { firebaseAdmin } from '../src/lib/firebaseAdmin';
 import { getWorkList } from '../src/lib/firestoreAdmin';
+import { HeaderBase } from '../src/components/common/headerbase';
+import { OgpCard } from '../src/components/common/ogp';
 
 const Gallery = ({ items }: { items: WorkInfo[] }) => (
   <>
+  <HeaderBase title="Gallery">
+    <OgpCard
+      title="Gallery"
+      description="gallery of your own filters"
+      url="/gallery"
+    />
+  </HeaderBase>
     <Navbar />
     <CardList items={items as WorkInfo[]} />
   </>

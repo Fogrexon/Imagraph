@@ -5,12 +5,23 @@ import { Editor } from '../../src/components/editor/editor';
 import { WorkInfo } from '../../src/lib/types';
 import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
 import { getWorkList } from '../../src/lib/firestoreAdmin';
+import { HeaderBase } from '../../src/components/common/headerbase';
+import { OgpCard } from '../../src/components/common/ogp';
 
-const Edit = ({ shaderData }: { shaderData: WorkInfo | '' }) => (
-  <div className="w-screen md:h-screen flex flex-col">
-    <Navbar className="flex-grow-1" />
-    <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
-  </div>
+const Edit = ({ shaderData }: { shaderData: WorkInfo }) => (
+  <>
+    <HeaderBase title={shaderData.detail.title}>
+      <OgpCard
+        title={shaderData.detail.title}
+        description="Edit shader"
+        url={`/edit/${shaderData.id}`}
+       />
+    </HeaderBase>
+    <div className="w-screen md:h-screen flex flex-col">
+      <Navbar className="flex-grow-1" />
+      <Editor className="flex-grow" shader={shaderData as WorkInfo} shaderID="default" />
+    </div>
+  </>
 );
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
