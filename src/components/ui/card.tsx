@@ -1,15 +1,25 @@
 /* eslint-disable consistent-return */
-import React, { createRef, useEffect } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { Renderer, Filter, DefaultInput } from 'graphim';
 import Link from 'next/link';
 import hatoImg from './hato.jpg';
 import { Tag } from './tag';
 import { Actor } from './actor';
-import { WorkInfo } from '../../lib/types';
+import { User, WorkInfo } from '../../lib/types';
+import { getUser } from '../../lib/firestore';
 
 export const Card = ({ item }: { item: WorkInfo }) => {
   const imgRef = createRef<HTMLImageElement>();
+  const [user, setUser] = useState<User | undefined>();
   useEffect(() => {
+    // user data
+    getUser(item.detail.userid).then(data => {
+      console.log(data)
+      if (!data) return;
+      setUser(data);
+    });
+    
+    // shader init
     if (!imgRef || !imgRef.current) return;
     let renderer: Renderer;
     let filter: Filter;
@@ -33,9 +43,9 @@ export const Card = ({ item }: { item: WorkInfo }) => {
       filter?.release();
       renderer?.release();
     };
-  });
+  }, []);
   return (
-    <div className="relative w-40 md:w-64 h-32 shadow mx-2 my-2 rounded-md overflow-hidden">
+    <div className="relative w-40 sm:w-64 h-32 shadow mx-2 my-2 rounded-md overflow-hidden">
       <img
         ref={imgRef}
         className="w-full h-full absolute top-0 left-0"
@@ -45,7 +55,7 @@ export const Card = ({ item }: { item: WorkInfo }) => {
       />
       <div className="absolute text-white top-0 left-0 w-full h-full flex flex-col items-center bg-gray-700 bg-opacity-70 opacity-0 hover:opacity-100 duration-300">
         <div className="flex flex-row items-center w-full px-2 py-1">
-          <Actor />
+          <Actor src={user?.photoURL} />
           <Link href={`/edit/${item.id}`} passHref>
             <a
               href="dummey"

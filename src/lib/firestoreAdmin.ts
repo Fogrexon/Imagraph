@@ -43,11 +43,10 @@ export const getUser = async (userid: string): Promise<User | null> => {
   return userSnap.data() as User;
 };
 
-export const createUser = async (userid: string, name: string, photoURL: string) => {
-  if (await getUser(userid)) return;
+export const setUser = async (userid: string, user: User) => {
   userCollection.doc(userid).set({
     id: userid,
-    displayName: name,
-    photoURL,
+    displayName: user.displayName,
+    photoURL: user.photoURL,
   });
 };

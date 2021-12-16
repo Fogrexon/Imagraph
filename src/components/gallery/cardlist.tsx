@@ -19,7 +19,7 @@ export const CardList = ({ items }: { items: WorkInfo[] }) => (
       {items.length === 0 ? (
         <Message />
       ) : (
-        <div className="w-full grid grid-cols-3 justify-center">
+        <div className="w-full grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-center place-items-center">
           {items.map((item: WorkInfo) => (
             <Card key={item.id} item={item} />
           ))}

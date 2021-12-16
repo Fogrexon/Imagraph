@@ -1,24 +1,22 @@
 import type { NextApiRequest as Req, NextApiResponse as Res } from 'next';
 
 import { setCookie } from 'nookies';
-import { firebaseAdmin } from '../../src/lib/firebaseAdmin'; // 上記で実装したファイル
+import { firebaseAdmin } from '../../src/lib/firebaseAdmin';
+import { setUser } from '../../src/lib/firestoreAdmin';
 
 const loginAPI = async (req: Req, res: Res) => {
-  // "POST"以外は、"404 Not Found"を返す
   if (req.method !== 'POST') return res.status(404).send('Not Found');
 
-  // Tokenの有効期限
-  const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5日
+  // 5days
+  const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
-  // セッションCookieを作成するためのIDを取得
-  const id = (JSON.parse(req.body).id || '').toString();
+  const user = JSON.parse(req.body);
 
-  // Cookieに保存するセッションIDを作成する
+  setUser(user.id, user);
 
   const authing = firebaseAdmin.auth();
-  const sessionCookie = await authing.createSessionCookie(id, { expiresIn });
+  const sessionCookie = await authing.createSessionCookie(user.token, { expiresIn });
 
-  // Cookieのオプション
   const options = {
     maxAge: expiresIn,
     httpOnly: true,
@@ -26,7 +24,6 @@ const loginAPI = async (req: Req, res: Res) => {
     path: '/',
   };
 
-  // セッションIDをCookieに設定する
   setCookie({ res }, 'session', sessionCookie, options);
 
   res.send(JSON.stringify({ status: 'success' }));
