@@ -8,13 +8,13 @@ import { getWorkList } from '../../src/lib/firestoreAdmin';
 import { HeaderBase } from '../../src/components/common/headerbase';
 import { OgpCard } from '../../src/components/common/ogp';
 
-const Edit = ({ shaderData }: { shaderData: WorkInfo }) => (
+const Edit = ({ shaderData }: { shaderData?: WorkInfo }) => (
   <>
-    <HeaderBase title={shaderData.detail.title}>
+    <HeaderBase title={shaderData?.detail.title || 'Create New Shader'}>
       <OgpCard
-        title={shaderData.detail.title}
+        title={shaderData?.detail.title || 'Create New Shader'}
         description="Edit shader"
-        url={`/edit/${shaderData.id}`}
+        url={`/edit/${shaderData?.id || 'new'}`}
        />
     </HeaderBase>
     <div className="w-screen md:h-screen flex flex-col">
