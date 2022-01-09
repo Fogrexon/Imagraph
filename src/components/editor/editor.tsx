@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { addWork, getWorkID, updateWork } from '../../lib/firestore';
 import { WorkDetail, WorkInfo } from '../../lib/types';
 import { AuthContext } from '../common/auth';
+import { NotificationContext } from '../common/notification';
 import { AceEditor } from './ace';
 import { ControlBar } from './control-bar';
 import { Viewer } from './viewer';
@@ -25,7 +26,8 @@ export const Editor = ({
   shader?: WorkInfo;
   shaderID?: string;
 }) => {
-  const { user } = useContext(AuthContext); 
+  const { user } = useContext(AuthContext);
+  const { dispatchNotification } = useContext(NotificationContext);
   const [glsl, setGLSL] = useState(
     shader && shaderID ? (shader.detail.shaders[shaderID].shader as string) : defaultGLSL
   );
@@ -61,12 +63,20 @@ export const Editor = ({
       userid: user.id
     };
 
-    if (router.query.id !== 'new') updateWork(user.id, router.query.id as string, newWorkDetail);
-    else addWork(user.id, newWorkDetail).then(doc => getWorkID(doc)).then((docid) => {
-      router.push(`/edit/${docid}`)
-    }).catch((e) => {
-      window?.alert(e);
-    });
+    if (router.query.id !== 'new') updateWork(user.id, router.query.id as string, newWorkDetail)
+      .then(() => dispatchNotification({type: 'info', message: '保存しました'}))
+      .catch((e) => {
+        dispatchNotification({type: 'error', message: '保存に失敗しました'})
+        window?.alert(e);
+      });
+    else addWork(user.id, newWorkDetail)
+      .then(doc => getWorkID(doc))
+      .then((docid) => dispatchNotification({type: 'info', message: '新規登録しました'}).then(() => docid))
+      .then((docid) => {router.push(`/edit/${docid}`)})
+      .catch((e) => {
+        dispatchNotification({type: 'error', message: '新規登録に失敗しました'})
+        window?.alert(e);
+      });
   };
 
   return (
