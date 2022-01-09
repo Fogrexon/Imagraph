@@ -68,7 +68,7 @@ export const Editor = ({
     if (router.query.id !== 'new')
       updateWork(user.id, router.query.id as string, newWorkDetail)
         .then(() => dispatchNotification({ type: 'info', message: '保存しました' }))
-        .catch((e) => {
+        .catch(() => {
           dispatchNotification({ type: 'error', message: '保存に失敗しました' });
         });
     else
@@ -80,7 +80,7 @@ export const Editor = ({
         .then((docid) => {
           router.push(`/edit/${docid}`);
         })
-        .catch((e) => {
+        .catch(() => {
           dispatchNotification({ type: 'error', message: '新規登録に失敗しました' });
         });
   };
