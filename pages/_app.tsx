@@ -5,11 +5,14 @@ import '../styles/globals.css';
 
 import type { AppProps } from 'next/app';
 import { AuthProvider } from '../src/components/common/auth';
+import { NotificationProvider } from '../src/components/common/notification';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider>
-      <Component {...pageProps} />
+      <NotificationProvider>
+        <Component {...pageProps} />
+      </NotificationProvider>
     </AuthProvider>
   );
 }
