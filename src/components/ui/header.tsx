@@ -38,6 +38,7 @@ const NavbarLeft = () => (
   </div>
 );
 
+// user setting panel
 const NavbarRight = () => {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
@@ -47,6 +48,7 @@ const NavbarRight = () => {
   };
 
   useEffect(() => {
+    // on other place clicked, close panel
     const documentClickHandler = (parent: HTMLDivElement | null) => (e: MouseEvent) => {
       if (!parent || parent?.contains(e.target as Node)) return;
       setOpen(false);

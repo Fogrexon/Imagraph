@@ -10,7 +10,7 @@ interface NotificationProps {
   dispatchNotification: (settings: NotificationSettings) => Promise<void>;
 }
 
-const NotificationContext = createContext<NotificationProps>(
+export const NotificationContext = createContext<NotificationProps>(
   {
     dispatchNotification: async () => {},
   }
@@ -26,7 +26,7 @@ type NotificationType = (typeof notificationTypeList)[number];
 const notificationStyles = {
   alert: ['bg-yellow-100', 'border-yellow-500', 'text-yellow-900'],
   info: ['bg-blue-100', 'border-blue-500', 'text-blue-900'],
-  error: ['bg-green-100', 'border-green-500', 'text-green-900'],
+  error: ['bg-red-100', 'border-red-500', 'text-red-900'],
 }
 // notification component
 const Notification = ({children, className, type}: {children: ReactNode, className: string, type: NotificationType}) => {
