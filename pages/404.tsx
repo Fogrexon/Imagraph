@@ -6,11 +6,7 @@ import { OgpCard } from '../src/components/common/ogp';
 const NotFound = () => (
   <>
     <HeaderBase title="Not Found">
-      <OgpCard
-        title="NotFound"
-        description="Not Found"
-        url="/404"
-      />
+      <OgpCard title="NotFound" description="Not Found" url="/404" />
     </HeaderBase>
     <Navbar />
     <NotFoundMessage />

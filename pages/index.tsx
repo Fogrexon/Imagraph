@@ -7,13 +7,9 @@ import { OgpCard } from '../src/components/common/ogp';
 
 const Home = () => (
   <>
-  <HeaderBase title="Imagraph">
-    <OgpCard
-      title="Imagraph"
-      description="Create image filter by shader."
-      url="/"
-    />
-  </HeaderBase>
+    <HeaderBase title="Imagraph">
+      <OgpCard title="Imagraph" description="Create image filter by shader." url="/" />
+    </HeaderBase>
     <Navbar />
     <Introduction />
   </>

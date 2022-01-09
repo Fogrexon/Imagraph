@@ -15,7 +15,7 @@ const Edit = ({ shaderData }: { shaderData?: WorkInfo }) => (
         title={shaderData?.detail.title || 'Create New Shader'}
         description="Edit shader"
         url={`/edit/${shaderData?.id || 'new'}`}
-       />
+      />
     </HeaderBase>
     <div className="w-screen md:h-screen flex flex-col">
       <Navbar className="flex-grow-1" />

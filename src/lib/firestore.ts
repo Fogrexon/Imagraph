@@ -39,7 +39,8 @@ const snapshotToList = (list: any, userid: string) => {
   return items;
 };
 
-export const getWorkCollection = (userid: string) => collection(doc(userCollection, userid), 'work')
+export const getWorkCollection = (userid: string) =>
+  collection(doc(userCollection, userid), 'work');
 
 export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
@@ -51,7 +52,8 @@ export const getWorkList = async (userid: string, maxWorkCount?: number) => {
 export const updateWork = (userid: string, id: string, workDetail: WorkDetail) =>
   setDoc(doc(getWorkCollection(userid), id), workDetail);
 
-export const addWork = (userid: string, workDetail: WorkDetail) => addDoc(getWorkCollection(userid), workDetail);
+export const addWork = (userid: string, workDetail: WorkDetail) =>
+  addDoc(getWorkCollection(userid), workDetail);
 
 export const getWorkID = async (docRef: DocumentReference) => (await getDoc(docRef)).id;
 
@@ -67,5 +69,5 @@ export const hasUser = async (userid: string) => {
   return userSnap.exists();
 };
 
-export const getUser = async (userid: string): Promise<User | undefined> => (await getDoc(doc(userCollection, userid))).data() as User;
-
+export const getUser = async (userid: string): Promise<User | undefined> =>
+  (await getDoc(doc(userCollection, userid))).data() as User;

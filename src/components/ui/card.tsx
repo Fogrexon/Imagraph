@@ -13,12 +13,12 @@ export const Card = ({ item }: { item: WorkInfo }) => {
   const [user, setUser] = useState<User | undefined>();
   useEffect(() => {
     // user data
-    getUser(item.detail.userid).then(data => {
-      console.log(data)
+    getUser(item.detail.userid).then((data) => {
+      console.log(data);
       if (!data) return;
       setUser(data);
     });
-    
+
     // shader init
     if (!imgRef || !imgRef.current) return;
     let renderer: Renderer;

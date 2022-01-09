@@ -9,11 +9,11 @@ import { NotificationProvider } from '../src/components/common/notification';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <NotificationProvider>
+    <NotificationProvider>
+      <AuthProvider>
         <Component {...pageProps} />
-      </NotificationProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </NotificationProvider>
   );
 }
 export default MyApp;

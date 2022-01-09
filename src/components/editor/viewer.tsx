@@ -8,8 +8,6 @@ import { Alert } from '../ui/alert';
 import hatoImg from '../ui/hato.jpg';
 import { initialize, refreshShader } from './initialize';
 
-
-
 // eslint-disable-next-line no-shadow
 export const Viewer = ({
   glsl,

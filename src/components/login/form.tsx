@@ -1,39 +1,35 @@
-import React, { useState } from 'react';
-import { Alert } from '../ui/alert';
+import { useRouter } from 'next/dist/client/router';
+import React, { useContext } from 'react';
 import { login } from '../../lib/auth';
+import { NotificationContext } from '../common/notification';
+import { Alert } from '../ui/alert';
 
 const GoogleLogin = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean | string>(false);
+  const { dispatchNotification } = useContext(NotificationContext);
+  const router = useRouter();
+
   const loginProcess = () => {
     login()
       .then(() => {
-        setLoggedIn(true);
+        // successfully logged in
+        dispatchNotification({ type: 'info', message: 'ログインしました' }).then(() => {
+          router.push('/gallery');
+        });
       })
       .catch(() => {
-        setLoggedIn('ログインに失敗しました');
+        // catch some error
+        dispatchNotification({ type: 'error', message: 'ログインに失敗しました' });
       });
   };
 
   return (
     <div className="w-11/12 h-11/12 relative px-3 py-6 shadow rounded-md">
-      {
-        // eslint-disable-next-line no-nested-ternary
-        loggedIn === true ? (
-          <>
-            <Alert>Success. </Alert>
-          </>
-        ) : loggedIn === false ? (
-          ''
-        ) : (
-          loggedIn
-        )
-      }
       <button
         className="bg-red-500 px-4 py-2 text-white font-medium rounded-md"
         type="button"
         onClick={loginProcess}
       >
-        Googleでログイン
+        Googleで新規登録/ログイン
       </button>
     </div>
   );
@@ -67,6 +63,9 @@ const PasswordLogin = () => (
 const LoginCard = () => (
   <div className="flex flex-col shadow">
     <div className="px-4 py-4 flex items-center justify-center shadow">ログイン</div>
+    <div className="w-90 px-4 py-4 flex items-center justify-center">
+      <Alert>サービスの利用にはログインが必要です</Alert>
+    </div>
     <div className="flex xl:flex-row flex-col items-center justify-between">
       <div className="xl:w-2/4 w-full flex items-center justify-center px-6 py-6 relative">
         <PasswordLogin />
