@@ -6,11 +6,7 @@ import { OgpCard } from '../src/components/common/ogp';
 const Login = () => (
   <>
     <HeaderBase title="Imagraph-Login">
-      <OgpCard
-        title="Login"
-        description="Login or sign up to Imagrah"
-        url="/login"
-      />
+      <OgpCard title="Login" description="Login or sign up to Imagrah" url="/login" />
     </HeaderBase>
     <Navbar />
     <LoginForm />

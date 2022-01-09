@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { Ace } from "ace-builds";
-import { DefaultInput, Filter, Renderer } from "graphim";
-import { MutableRefObject } from "react";
+import { Ace } from 'ace-builds';
+import { DefaultInput, Filter, Renderer } from 'graphim';
+import { MutableRefObject } from 'react';
 
 // shader initialize
 export const initialize =

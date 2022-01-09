@@ -12,13 +12,13 @@ const GoogleLogin = () => {
     login()
       .then(() => {
         // successfully logged in
-        dispatchNotification({type: 'info', message: 'ログインしました'}).then(() => {
+        dispatchNotification({ type: 'info', message: 'ログインしました' }).then(() => {
           router.push('/gallery');
         });
       })
       .catch(() => {
         // catch some error
-        dispatchNotification({type: 'error', message: 'ログインに失敗しました'});
+        dispatchNotification({ type: 'error', message: 'ログインに失敗しました' });
       });
   };
 
@@ -63,7 +63,9 @@ const PasswordLogin = () => (
 const LoginCard = () => (
   <div className="flex flex-col shadow">
     <div className="px-4 py-4 flex items-center justify-center shadow">ログイン</div>
-    <div className="w-90 px-4 py-4 flex items-center justify-center"><Alert>サービスの利用にはログインが必要です</Alert></div>
+    <div className="w-90 px-4 py-4 flex items-center justify-center">
+      <Alert>サービスの利用にはログインが必要です</Alert>
+    </div>
     <div className="flex xl:flex-row flex-col items-center justify-between">
       <div className="xl:w-2/4 w-full flex items-center justify-center px-6 py-6 relative">
         <PasswordLogin />

@@ -39,7 +39,7 @@ export const Editor = ({
   const router = useRouter();
 
   const saveShader = () => {
-    if(!user) return;
+    if (!user) return;
     const newWorkDetail: WorkDetail = {
       title: name,
       shaders: {
@@ -49,34 +49,40 @@ export const Editor = ({
         },
         input: {
           name: 'default-input',
-        }
+        },
       },
       tree: {
-        type: "Filter",
-        id: "default",
-        input: [{
-          type: "Input",
-          id: "input"
-        }]
+        type: 'Filter',
+        id: 'default',
+        input: [
+          {
+            type: 'Input',
+            id: 'input',
+          },
+        ],
       },
       tags: tag,
-      userid: user.id
+      userid: user.id,
     };
 
-    if (router.query.id !== 'new') updateWork(user.id, router.query.id as string, newWorkDetail)
-      .then(() => dispatchNotification({type: 'info', message: '保存しました'}))
-      .catch((e) => {
-        dispatchNotification({type: 'error', message: '保存に失敗しました'})
-        window?.alert(e);
-      });
-    else addWork(user.id, newWorkDetail)
-      .then(doc => getWorkID(doc))
-      .then((docid) => dispatchNotification({type: 'info', message: '新規登録しました'}).then(() => docid))
-      .then((docid) => {router.push(`/edit/${docid}`)})
-      .catch((e) => {
-        dispatchNotification({type: 'error', message: '新規登録に失敗しました'})
-        window?.alert(e);
-      });
+    if (router.query.id !== 'new')
+      updateWork(user.id, router.query.id as string, newWorkDetail)
+        .then(() => dispatchNotification({ type: 'info', message: '保存しました' }))
+        .catch((e) => {
+          dispatchNotification({ type: 'error', message: '保存に失敗しました' });
+        });
+    else
+      addWork(user.id, newWorkDetail)
+        .then((doc) => getWorkID(doc))
+        .then((docid) =>
+          dispatchNotification({ type: 'info', message: '新規登録しました' }).then(() => docid)
+        )
+        .then((docid) => {
+          router.push(`/edit/${docid}`);
+        })
+        .catch((e) => {
+          dispatchNotification({ type: 'error', message: '新規登録に失敗しました' });
+        });
   };
 
   return (

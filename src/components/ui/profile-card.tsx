@@ -19,9 +19,9 @@ export const ProfileCard = () => {
   const sessionLogout = () => {
     logout();
     getAuth(firebaseApp).signOut();
-    dispatchNotification({type: 'info', message: 'ログアウトしました'}).then(() => {
+    dispatchNotification({ type: 'info', message: 'ログアウトしました' }).then(() => {
       router.push('/');
-    })
+    });
   };
   return (
     <div className="absolute top-20 right-4 w-max-full w-80 shadow bg-white rounded-md">

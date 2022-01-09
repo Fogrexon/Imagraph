@@ -10,13 +10,9 @@ import { OgpCard } from '../src/components/common/ogp';
 
 const Gallery = ({ items }: { items: WorkInfo[] }) => (
   <>
-  <HeaderBase title="Gallery">
-    <OgpCard
-      title="Gallery"
-      description="gallery of your own filters"
-      url="/gallery"
-    />
-  </HeaderBase>
+    <HeaderBase title="Gallery">
+      <OgpCard title="Gallery" description="gallery of your own filters" url="/gallery" />
+    </HeaderBase>
     <Navbar />
     <CardList items={items as WorkInfo[]} />
   </>

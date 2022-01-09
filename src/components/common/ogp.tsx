@@ -4,7 +4,7 @@ interface OGP {
   url: string;
 }
 
-export const OgpCard = ({title, description, url}: OGP) => (
+export const OgpCard = ({ title, description, url }: OGP) => (
   <>
     {/* base */}
     <meta property="og:title" content={title} />
