@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { WorkInfo } from '../../lib/types';
 import { Viewer } from './viewer';
+import hatoImg from '../ui/hato.jpg';
 
 export const Filter = ({ item }: { item: WorkInfo }) => {
-  const [imgSrc, setImgSrc] = useState<string | null>();
+  const [imgSrc, setImgSrc] = useState<string>(hatoImg.src);
   
 
   useEffect(() => {
