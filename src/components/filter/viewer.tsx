@@ -70,7 +70,9 @@ export const Viewer = ({
       imgInitedRef.current = true;
       return;
     }
-    if (filterRef.current) rendererRef.current?.setImage(imgRef.current as HTMLImageElement)
+    const image = new Image();
+    image.src = imgSrc;
+    if (filterRef.current) rendererRef.current?.setImage(image)
   }, [imgSrc]);
 
   return (
