@@ -57,8 +57,8 @@ export const Card = ({ item }: { item: WorkInfo }) => {
           <h3 className="text-xl mx-4 my-2 flex-grow-0 transition-all duration-500">{item.detail.title}</h3>
         </div>
         <div className="w-full p-1 flex justify-end">
-          <ButtonLink primary href={`/edit/${item.id}`} target="_blank">Edit</ButtonLink>
           <ButtonLink primary href={`/filter/${item.id}`} target="_blank">Filter</ButtonLink>
+          <ButtonLink href={`/edit/${item.id}`} target="_blank">Edit</ButtonLink>
         </div>
       </div>
     </div>
