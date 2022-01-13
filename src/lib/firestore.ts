@@ -9,6 +9,8 @@ import {
   getDoc,
   getFirestore,
   DocumentReference,
+  serverTimestamp,
+  orderBy,
 } from 'firebase/firestore';
 import { firebaseApp } from './firebase';
 import { User, WorkDetail, WorkInfo } from './types';
@@ -33,6 +35,7 @@ const snapshotToList = (list: any, userid: string) => {
         tags: d.tags,
         tree: d.tree,
         userid,
+        createdAt: (new Date(d.createdAt.seconds*1000)).toISOString(),
       },
     });
   });
@@ -44,8 +47,8 @@ export const getWorkCollection = (userid: string) =>
 
 export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
-    ? getDocs(query(getWorkCollection(userid), limit(maxWorkCount)))
-    : getDocs(getWorkCollection(userid)));
+    ? getDocs(query(getWorkCollection(userid), limit(maxWorkCount), orderBy('createdAt', 'desc')))
+    : getDocs(query(getWorkCollection(userid), orderBy('createdAt', 'desc'))));
   return snapshotToList(workDatabase, userid);
 };
 
@@ -53,7 +56,7 @@ export const updateWork = (userid: string, id: string, workDetail: WorkDetail) =
   setDoc(doc(getWorkCollection(userid), id), workDetail);
 
 export const addWork = (userid: string, workDetail: WorkDetail) =>
-  addDoc(getWorkCollection(userid), workDetail);
+  addDoc(getWorkCollection(userid), {...workDetail, createdAt: serverTimestamp()});
 
 export const getWorkID = async (docRef: DocumentReference) => (await getDoc(docRef)).id;
 
