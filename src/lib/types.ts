@@ -27,6 +27,7 @@ export interface ShaderNode {
 // TODO any
 
 export interface WorkDetail {
+  createdAt?: string;
   userid: string;
   title: string;
   shaders: { [key: string]: ShaderDetail };

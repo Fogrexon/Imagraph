@@ -1,3 +1,4 @@
+import admin from 'firebase-admin';
 import { firestore } from './firebaseAdmin';
 import { User, WorkDetail, WorkInfo } from './types';
 
@@ -16,6 +17,7 @@ const snapshotToList = (list: any, userid: string) => {
         shaders: d.shaders,
         tree: d.tree,
         tags: d.tags,
+        createdAt: (new Date(d.createdAt.seconds*1000)).toISOString(),
       },
     });
   });
@@ -26,8 +28,8 @@ export const getWorkCollection = (userid: string) => userCollection.doc(userid).
 
 export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
-    ? getWorkCollection(userid).limit(maxWorkCount).get()
-    : getWorkCollection(userid).get());
+    ? getWorkCollection(userid).limit(maxWorkCount).orderBy('createdAt').get()
+    : getWorkCollection(userid).orderBy('createdAt').get());
   return snapshotToList(workDatabase, userid);
 };
 
@@ -35,7 +37,7 @@ export const updateWork = (userid: string, id: string, workDetail: WorkDetail) =
   getWorkCollection(userid).doc(id).set(workDetail);
 
 export const addWork = (userid: string, workDetail: WorkDetail) =>
-  getWorkCollection(userid).add(workDetail);
+  getWorkCollection(userid).add({...workDetail, createdAt: admin.firestore.FieldValue.serverTimestamp()});
 
 export const getUser = async (userid: string): Promise<User | null> => {
   const userSnap = await userCollection.doc(userid).get();
