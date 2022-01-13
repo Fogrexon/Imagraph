@@ -28,8 +28,8 @@ export const getWorkCollection = (userid: string) => userCollection.doc(userid).
 
 export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
-    ? getWorkCollection(userid).limit(maxWorkCount).orderBy('createdAt').get()
-    : getWorkCollection(userid).orderBy('createdAt').get());
+    ? getWorkCollection(userid).limit(maxWorkCount).orderBy('createdAt', 'desc').get()
+    : getWorkCollection(userid).orderBy('createdAt', 'desc').get());
   return snapshotToList(workDatabase, userid);
 };
 

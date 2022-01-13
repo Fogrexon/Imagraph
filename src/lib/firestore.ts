@@ -10,6 +10,7 @@ import {
   getFirestore,
   DocumentReference,
   serverTimestamp,
+  orderBy,
 } from 'firebase/firestore';
 import { firebaseApp } from './firebase';
 import { User, WorkDetail, WorkInfo } from './types';
@@ -46,8 +47,8 @@ export const getWorkCollection = (userid: string) =>
 
 export const getWorkList = async (userid: string, maxWorkCount?: number) => {
   const workDatabase = await (maxWorkCount
-    ? getDocs(query(getWorkCollection(userid), limit(maxWorkCount)))
-    : getDocs(getWorkCollection(userid)));
+    ? getDocs(query(getWorkCollection(userid), limit(maxWorkCount), orderBy('createdAt', 'desc')))
+    : getDocs(query(getWorkCollection(userid), orderBy('createdAt', 'desc'))));
   return snapshotToList(workDatabase, userid);
 };
 
