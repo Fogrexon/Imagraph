@@ -21,7 +21,7 @@ export const Button = ({
     } transition-colors duration-1 ${
       primary
         ? 'bg-blue-700 text-white hover:bg-blue-900'
-        : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
+        : 'text-gray-700 bg-gray-200 hover:bg-gray-300'
     }`}
   >
     {children}
