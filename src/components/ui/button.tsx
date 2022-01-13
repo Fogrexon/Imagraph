@@ -21,7 +21,7 @@ export const Button = ({
     } transition-colors duration-1 ${
       primary
         ? 'bg-blue-700 text-white hover:bg-blue-900'
-        : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
+        : 'text-gray-700 bg-gray-200 hover:bg-gray-300'
     }`}
   >
     {children}
@@ -33,11 +33,13 @@ export const ButtonLink = ({
   small = false,
   href,
   children,
+  target = '',
 }: {
   primary?: boolean;
   small?: boolean;
   href: string;
   children: ReactNode;
+  target?: string;
 }) => (
   <Link href={href} passHref>
     <a
@@ -49,6 +51,7 @@ export const ButtonLink = ({
           ? 'bg-blue-700 text-white hover:bg-blue-900'
           : 'text-gray-700 bg-opacity-0 bg-gray-700 hover:bg-opacity-20'
       }`}
+      target={target}
     >
       {children}
     </a>

@@ -1,12 +1,11 @@
 /* eslint-disable consistent-return */
 import React, { createRef, useEffect, useState } from 'react';
 import { Renderer, Filter, DefaultInput } from 'graphim';
-import Link from 'next/link';
 import hatoImg from './hato.jpg';
-import { Tag } from './tag';
 import { Actor } from './actor';
 import { User, WorkInfo } from '../../lib/types';
 import { getUser } from '../../lib/firestore';
+import { ButtonLink } from './button';
 
 export const Card = ({ item }: { item: WorkInfo }) => {
   const imgRef = createRef<HTMLImageElement>();
@@ -14,7 +13,6 @@ export const Card = ({ item }: { item: WorkInfo }) => {
   useEffect(() => {
     // user data
     getUser(item.detail.userid).then((data) => {
-      console.log(data);
       if (!data) return;
       setUser(data);
     });
@@ -53,25 +51,14 @@ export const Card = ({ item }: { item: WorkInfo }) => {
         alt="shader"
         style={{ objectFit: 'contain' }}
       />
-      <div className="absolute text-white top-0 left-0 w-full h-full flex flex-col items-center bg-gray-700 bg-opacity-70 opacity-0 hover:opacity-100 duration-300">
+      <div className="absolute text-black top-0 left-0 w-full h-full flex flex-col justify-between items-center bg-gray-100 bg-opacity-70 opacity-0 hover:opacity-100 duration-300">
         <div className="flex flex-row items-center w-full px-2 py-1">
           <Actor src={user?.photoURL} />
-          <Link href={`/edit/${item.id}`} passHref>
-            <a
-              href="dummey"
-              className="text-xl mx-4 my-2 flex-grow-0 hover:underline transition-all duration-500"
-            >
-              {item.detail.title}
-            </a>
-          </Link>
+          <h3 className="text-xl mx-4 my-2 flex-grow-0 transition-all duration-500">{item.detail.title}</h3>
         </div>
-
-        <div>
-          {item.detail.tags.map((tag) => (
-            <Tag key={tag} white>
-              {tag}
-            </Tag>
-          ))}
+        <div className="w-full p-1 flex justify-end">
+          <ButtonLink primary href={`/filter/${item.id}`} target="_blank">Filter</ButtonLink>
+          <ButtonLink href={`/edit/${item.id}`} target="_blank">Edit</ButtonLink>
         </div>
       </div>
     </div>
